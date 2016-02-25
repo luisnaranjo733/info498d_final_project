@@ -16,6 +16,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // TODO: set up list view for alarms
+        // TODO: how are we going to store alarms?
+        // TODO: set up master/detail view for alarms
+        // TODO: need to set up settings and let them be stored
     }
 
     @Override
