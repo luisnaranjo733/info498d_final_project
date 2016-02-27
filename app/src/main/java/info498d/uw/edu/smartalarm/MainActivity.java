@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Log.v(TAG, "Opening settings activity");
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
                 // Return true to consume this click and prevent others from executing.
                 return true;
             }
