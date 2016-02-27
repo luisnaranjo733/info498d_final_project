@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Core Settings"
+        android:key="pref_key_core_settings">
+        <EditTextPreference
+            android:title="Targeted Hours of Sleep"
+            android:key="pref_key_sleep_time"
+            android:inputType="number"
+            />
+        <EditTextPreference
+            android:title="Morning Prep Time"
+            android:key="pref_key_prep_time"
+            android:inputType="number"/>
+        <Preference
+            android:title="Sleep Locations"
+            android:key="pref_key_sleep_locations" />
+        <EditTextPreference
+            android:title="Target Bed Time"
+            android:key="pref_key_bed_time"
+            android:inputType="time"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Customization"
+        android:key="pref_key_custom_settings">
+        <Preference
+            android:title="Sound"
+            android:key="pref_key_sound" />
+        <Preference
+            android:title="Vibration"
+            android:key="pref_key_vibration" />
+        <Preference
+            android:title="Motivation"
+            android:key="pref_key_motivation"/>
+        <Preference
+            android:title="Gestures"
+            android:key="pref_key_gestures" />
+
+    </PreferenceCategory>
+</PreferenceScreen>
