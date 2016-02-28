@@ -17,7 +17,7 @@ public class AlarmDatabase {
 
     private static final String TAG = "AlarmDatabase";
 
-    //defines schema
+    //defines scheme of the alarm
     public static abstract class AlarmEntry implements BaseColumns {
         public static final String TABLE_NAME = "entry";
         public static final String _ID = "_id";
@@ -60,31 +60,21 @@ public class AlarmDatabase {
         }
     }
 
+    // adds dummy values to database to show dummy alarms
     public static void testDatabase(Context context) {
-        Helper helper = new Helper(context);
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        ContentValues content = new ContentValues();
-        content.put(AlarmEntry.COL_TITLE, "Class");
-        content.put(AlarmEntry.COL_TIME, "8:30 AM");
-        content.put(AlarmEntry.COL_DAY, "Monday");
-
-        try {
-            long newRowId = db.insert(AlarmEntry.TABLE_NAME, null, content);
-        }catch (SQLiteConstraintException e) {}
-
+        addAlarm(context, "Class", "8:30 AM", "Monday");
     }
 
-    public static void addAlarm(Context context, String a, String m, String d) {
+    // method to add new alarms **not used yet**
+    public static void addAlarm(Context context, String title, String time, String day) {
         Helper helper = new Helper(context);
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues content = new ContentValues();
-        content.put(AlarmEntry.COL_TITLE, a);
-        content.put(AlarmEntry.COL_TIME, d);
-        content.put(AlarmEntry.COL_DAY, m );
+        content.put(AlarmEntry.COL_TITLE, title);
+        content.put(AlarmEntry.COL_TIME, time);
+        content.put(AlarmEntry.COL_DAY, day);
         try {
             long newRowId = db.insert(AlarmEntry.TABLE_NAME, null, content);
         }catch (SQLiteConstraintException e) {}

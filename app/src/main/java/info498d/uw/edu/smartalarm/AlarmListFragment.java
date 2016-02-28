@@ -1,0 +1,95 @@
+package info498d.uw.edu.smartalarm;
+
+import android.app.Fragment;
+import android.content.Context;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CursorAdapter;
+import android.widget.SimpleCursorAdapter;
+
+/**
+ * Created by kai on 2/27/16.
+ */
+public class AlarmListFragment extends Fragment {
+    private static final String TAG = "AlarmListFragment";
+
+    private static SimpleCursorAdapter adapter;
+
+    private OnAlarmSelectedListener callback;
+
+    public interface OnAlarmSelectedListener {
+        public void onAlarmSelected(Cursor cursor);
+    }
+
+    public AlarmListFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+
+        try {
+            callback = (OnAlarmSelectedListener) context;
+        }catch(ClassCastException e){
+            throw new ClassCastException(context.toString() + " must implement OnAlarmSelectedListener");
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        if (container != null) {
+            container.removeAllViews();
+        }
+
+        // Inflate the layout for this fragment
+        final View rootView = inflater.inflate(R.layout.fragment_alarm_list, container, false);
+
+        // *** calling these populates the alarm with every reinstall ***
+        // *** remove or comment out to stop populating ***
+        runTest();
+        runTest();
+
+        String[] cols = new String[]{AlarmDatabase.AlarmEntry.COL_TIME, AlarmDatabase.AlarmEntry.COL_DAY, AlarmDatabase.AlarmEntry.COL_TITLE,};
+        int[] ids = new int[]{R.id.alarm_item_time, R.id.alarm_item_day, R.id.alarm_item_title};
+
+        adapter = new SimpleCursorAdapter(
+                getActivity(),
+                R.layout.alarm_item,
+                AlarmDatabase.queryDatabase(getActivity()),
+                cols, ids,
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
+        );
+
+        //set the adapter
+        AdapterView listView = (AdapterView)rootView.findViewById(R.id.alarm_list_view);
+        listView.setAdapter(adapter);
+
+        //set alarm item click listener
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
+
+                ((OnAlarmSelectedListener)getActivity()).onAlarmSelected(cursor);
+
+            }
+        });
+
+
+        return rootView;
+    }
+
+    // adds dummy values to database to show dummy alarms
+    private void runTest() {
+        AlarmDatabase.testDatabase(getActivity());
+    }
+}

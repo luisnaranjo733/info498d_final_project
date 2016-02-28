@@ -5,11 +5,9 @@
     android:layout_height="match_parent"
     tools:context="info498d.uw.edu.smartalarm.MainActivity">
 
-    <fragment
-        android:name="info498d.uw.edu.smartalarm.AlarmListFragment"
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/master_fragment"
-        android:layout_weight="1"
-        />
+        android:id="@+id/alarm_list_view">
+    </ListView>
 </LinearLayout>

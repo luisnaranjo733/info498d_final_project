@@ -1,43 +1,38 @@
 package info498d.uw.edu.smartalarm;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AlarmListFragment.OnAlarmSelectedListener {
     protected static String TAG = "**SmartAlarm.Main";
     Menu menu;
 
-    private static CursorAdapter adapter;
+    // fragment managing objects
+    FragmentManager fragmentManager = getFragmentManager();
+    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AlarmListFragment alarmList = new AlarmListFragment();
 
-        runTest();
-        runTest();
-
-        String[] cols = new String[]{AlarmDatabase.AlarmEntry.COL_TIME, AlarmDatabase.AlarmEntry.COL_DAY, AlarmDatabase.AlarmEntry.COL_TITLE,};
-        int[] ids = new int[]{R.id.alarm_item_time, R.id.alarm_item_day, R.id.alarm_item_title};
-
-        adapter = new SimpleCursorAdapter(
-                this,
-                R.layout.alarm_item,
-                AlarmDatabase.queryDatabase(this),
-                cols, ids,
-                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
-        );
-        //set the adapter
-        AdapterView listView = (AdapterView)findViewById(R.id.alarm_list_view);
-        listView.setAdapter(adapter);
+        fragmentTransaction.add(R.id.master_fragment,
+                alarmList);
+        fragmentTransaction.commit();
 
         // TODO: set up list view for alarms
         // TODO: how are we going to store alarms?
@@ -64,7 +59,19 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void runTest() {
-        AlarmDatabase.testDatabase(this);
+
+    // when an alarm is clicked from a list, the alarm details fragment is inflated through
+    // this listener method
+    @Override
+    public void onAlarmSelected(Cursor cursor) {
+        AlarmDetailsFragment alarmDetails = new AlarmDetailsFragment();
+
+        Log.v(TAG, "alarm clicked");
+        getFragmentManager().beginTransaction()
+                .replace(R.id.master_fragment, alarmDetails)
+                .addToBackStack(null)
+                .commit();
     }
+
+
 }

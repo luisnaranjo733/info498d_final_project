@@ -45,10 +45,9 @@
         android:layout_alignBottom="@+id/alarm_item_time"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignLeft="@+id/alarm_item_title"
-        android:layout_alignStart="@+id/alarm_item_title"
         android:layout_alignParentTop="true"
-        android:checked="false" />
+        android:checked="false"
+        android:focusable="false"/>
 
 
 </RelativeLayout>
