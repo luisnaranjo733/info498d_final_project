@@ -1,12 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:id="@+id/alarm_list_text_view"
+        android:id="@+id/alarm_item_time"
+        android:text="Alarm Time"
+        android:textSize="25sp"
+        android:layout_marginLeft="20px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?android:attr/listPreferredItemHeight"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+        android:layout_alignBottom="@+id/alarm_item_title" />
 
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Day of Week"
+        android:id="@+id/alarm_item_day"
+        android:paddingTop="10px"
+        android:layout_alignBottom="@+id/alarm_item_time"
+        android:layout_alignLeft="@+id/alarm_item_time"
+        android:layout_alignStart="@+id/alarm_item_time" />
+
+    <TextView
+        android:id="@+id/alarm_item_title"
+        android:text="Alarm Title"
+        android:textSize="18sp"
+        android:layout_marginLeft="185dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/alarm_item_time"
+        android:layout_alignStart="@+id/alarm_item_time"
+        android:layout_marginStart="185dp" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/alarm_item_switch"
+        android:layout_alignBottom="@+id/alarm_item_time"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignLeft="@+id/alarm_item_title"
+        android:layout_alignStart="@+id/alarm_item_title"
+        android:layout_alignParentTop="true"
+        android:checked="false" />
+
+
+</RelativeLayout>

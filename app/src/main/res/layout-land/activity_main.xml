@@ -9,9 +9,20 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="info498d.uw.edu.smartalarm.MainActivity">
 
-    <ListView
+    <!--android:name="info498d.uw.edu.smartalarm.AlarmFragment"-->
+    <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/alarm_list_view">
-    </ListView>
+        android:id="@+id/master_fragment"
+        android:layout_weight="1"
+        />
+
+    <!--android:name="info498d.uw.edu.smartalarm.SettingsFragment"-->
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/master_fragment_right"
+        android:layout_weight="1"
+        />
+
 </LinearLayout>
