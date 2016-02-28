@@ -12,12 +12,11 @@ import android.view.ViewGroup;
  */
 public class AlarmDetailsFragment extends Fragment {
 
+    // TODO: fill with actual details
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        if (container != null) {
-//            container.removeAllViews();
-//        }
 
         final View rootView = inflater.inflate(R.layout.fragment_alarm_details, container, false);
 

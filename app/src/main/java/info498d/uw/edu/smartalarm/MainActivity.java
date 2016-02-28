@@ -28,15 +28,14 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AlarmListFragment alarmList = new AlarmListFragment();
 
-        fragmentTransaction.add(R.id.master_fragment,
-                alarmList);
+        // opens list of alarms
+        AlarmListFragment alarmList = new AlarmListFragment();
+        fragmentTransaction.add(R.id.master_fragment, alarmList);
         fragmentTransaction.commit();
 
-        // TODO: set up list view for alarms
-        // TODO: how are we going to store alarms?
-        // TODO: set up master/detail view for alarms
+        // TODO: set landscape mode for alarms
+        // TODO: how are we going to store alarms? (sqlite or something else?)
         // TODO: need to set up settings and let them be stored
     }
 
@@ -60,8 +59,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     }
 
 
-    // when an alarm is clicked from a list, the alarm details fragment is inflated through
-    // this listener method
+    // listens for alarm being clicked to show details
     @Override
     public void onAlarmSelected(Cursor cursor) {
         AlarmDetailsFragment alarmDetails = new AlarmDetailsFragment();
