@@ -9,6 +9,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class AlarmAdapter extends ArrayAdapter<Alarm> {
@@ -35,7 +37,7 @@ public class AlarmAdapter extends ArrayAdapter<Alarm> {
 
 
         // Populate the data into the template view using the data object
-        alarmTime.setText("7:30 AM");
+        alarmTime.setText(alarm.getTime());
         alarmDay.setText("Monday");
         alarmTitle.setText(alarm.alarmTitle);
         alarmSwitch.setChecked(true);
