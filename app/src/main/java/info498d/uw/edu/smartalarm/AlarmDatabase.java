@@ -87,6 +87,21 @@ public class AlarmDatabase {
         }catch (SQLiteConstraintException e) {}
     }
 
+    public static void updateAlarm(Context context, long rowId, int switchInt) {
+        Helper helper = new Helper(context);
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues content = new ContentValues();
+        content.put(AlarmEntry.COL_SWITCH, switchInt);
+
+        String selection = AlarmEntry._ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(rowId) };
+
+        try {
+            db.update(AlarmEntry.TABLE_NAME, content, selection, selectionArgs);
+        } catch (SQLiteConstraintException e) {}
+    }
+
     public static Cursor queryDatabase(Context context) {
         Helper helper = new Helper(context);
 
