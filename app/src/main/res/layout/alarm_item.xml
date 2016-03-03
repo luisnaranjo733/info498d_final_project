@@ -14,11 +14,11 @@
         android:layout_alignBottom="@+id/alarm_item_title" />
 
     <TextView
+        android:id="@+id/alarm_item_day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:text="Day of Week"
-        android:id="@+id/alarm_item_day"
         android:paddingTop="10px"
         android:layout_alignBottom="@+id/alarm_item_time"
         android:layout_alignLeft="@+id/alarm_item_time"
@@ -39,9 +39,9 @@
         android:layout_marginStart="185dp" />
 
     <Switch
+        android:id="@+id/alarm_item_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/alarm_item_switch"
         android:layout_alignBottom="@+id/alarm_item_time"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

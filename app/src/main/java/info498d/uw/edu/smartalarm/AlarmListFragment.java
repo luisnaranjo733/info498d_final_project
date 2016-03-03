@@ -16,9 +16,7 @@ import android.widget.SimpleCursorAdapter;
  * Created by kai on 2/27/16.
  */
 public class AlarmListFragment extends Fragment {
-    private static final String TAG = "AlarmListFragment";
-
-    private static SimpleCursorAdapter adapter;
+    private static final String TAG = "**Alarm.AlarmListFrag";
 
     private OnAlarmSelectedListener callback;
 
@@ -54,23 +52,17 @@ public class AlarmListFragment extends Fragment {
 
         // *** calling these populates the alarm with every reinstall ***
         // *** remove or comment out to stop populating ***
-        runTest();
-        runTest();
+        //runTest();
 
         String[] cols = new String[]{AlarmDatabase.AlarmEntry.COL_TIME, AlarmDatabase.AlarmEntry.COL_DAY, AlarmDatabase.AlarmEntry.COL_TITLE,};
         int[] ids = new int[]{R.id.alarm_item_time, R.id.alarm_item_day, R.id.alarm_item_title};
 
-        adapter = new SimpleCursorAdapter(
-                getActivity(),
-                R.layout.alarm_item,
-                AlarmDatabase.queryDatabase(getActivity()),
-                cols, ids,
-                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
-        );
 
+        Cursor cursor = AlarmDatabase.queryDatabase(getActivity());
+        AlarmCursorAdapter alarmAdapter = new AlarmCursorAdapter(getActivity(), cursor, 0);
         //set the adapter
-        AdapterView listView = (AdapterView)rootView.findViewById(R.id.alarm_list_view);
-        listView.setAdapter(adapter);
+        AdapterView listView = (AdapterView) rootView.findViewById(R.id.alarm_list_view);
+        listView.setAdapter(alarmAdapter);
 
         //set alarm item click listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
