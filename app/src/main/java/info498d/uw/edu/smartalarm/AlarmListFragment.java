@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
 
@@ -26,7 +27,7 @@ public class AlarmListFragment extends Fragment {
     private OnAlarmSelectedListener callback;
 
     public interface OnAlarmSelectedListener {
-        public void onAlarmSelected(Cursor cursor);
+        public void onAlarmSelected();
     }
 
     public AlarmListFragment() {
@@ -55,9 +56,6 @@ public class AlarmListFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_alarm_list, container, false);
 
-        // *** calling these populates the alarm with every reinstall ***
-        // *** remove or comment out to stop populating ***
-//        runTest();
 
         List<Alarm> alarms = Alarm.listAll(Alarm.class);
         for (int i=0; i < alarms.size(); i++) {
@@ -65,31 +63,24 @@ public class AlarmListFragment extends Fragment {
             Log.v(TAG, "" + i + ": " + alarm.toString());
         }
 
+        AlarmAdapter adapter = new AlarmAdapter(getActivity(), alarms);
 
-        Cursor cursor = AlarmDatabase.queryDatabase(getActivity());
-        AlarmCursorAdapter alarmAdapter = new AlarmCursorAdapter(getActivity(), cursor, 0);
         //set the adapter
         AdapterView listView = (AdapterView) rootView.findViewById(R.id.alarm_list_view);
-        listView.setAdapter(alarmAdapter);
+        listView.setAdapter(adapter);
 
         //set alarm item click listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v(TAG, "Item clicked!");
-                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
-
-                ((OnAlarmSelectedListener)getActivity()).onAlarmSelected(cursor);
+                Alarm alarm = (Alarm) parent.getItemAtPosition(position);
+                ((OnAlarmSelectedListener)getActivity()).onAlarmSelected();
 
             }
         });
 
 
         return rootView;
-    }
-
-    // adds dummy values to database to show dummy alarms
-    private void runTest() {
-        AlarmDatabase.testDatabase(getActivity());
     }
 }

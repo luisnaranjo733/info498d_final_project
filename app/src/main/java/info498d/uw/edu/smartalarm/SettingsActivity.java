@@ -20,8 +20,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         // TODO: Get rid of this, only for testing purposes
         Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        cal.set(2016 + 1900, 3, 3, 11, 07);
-        Long datetime = cal.getTime().getTime();
+        int year = 2016; int month=3; int day=3; int hour=11; int minute=30; int second=31;
+        cal.set(year + 1900, month, day, hour, minute, second);
+        long datetime = cal.getTime().getTime();
         Alarm alarm = new Alarm("Wake up for class", datetime);
         alarm.save();
     }
