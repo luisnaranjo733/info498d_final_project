@@ -54,9 +54,6 @@ public class AlarmListFragment extends Fragment {
         // *** remove or comment out to stop populating ***
         //runTest();
 
-        String[] cols = new String[]{AlarmDatabase.AlarmEntry.COL_TIME, AlarmDatabase.AlarmEntry.COL_DAY, AlarmDatabase.AlarmEntry.COL_TITLE,};
-        int[] ids = new int[]{R.id.alarm_item_time, R.id.alarm_item_day, R.id.alarm_item_title};
-
 
         Cursor cursor = AlarmDatabase.queryDatabase(getActivity());
         AlarmCursorAdapter alarmAdapter = new AlarmCursorAdapter(getActivity(), cursor, 0);
@@ -68,6 +65,7 @@ public class AlarmListFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.v(TAG, "Item clicked!");
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
 
                 ((OnAlarmSelectedListener)getActivity()).onAlarmSelected(cursor);

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 /**
  * Created by kai on 2/27/16.
@@ -24,6 +25,7 @@ public class AlarmDatabase {
         public static final String COL_TITLE = "TITLE";
         public static final String COL_TIME = "TIME";
         public static final String COL_DAY = "alarm";
+        public static final String COL_SWITCH = "enabled";
 
     }
 
@@ -33,7 +35,8 @@ public class AlarmDatabase {
                     AlarmEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     AlarmEntry.COL_TITLE + " TEXT" + "," +
                     AlarmEntry.COL_TIME + " TEXT"+ "," +
-                    AlarmEntry.COL_DAY + " TEXT" +
+                    AlarmEntry.COL_DAY + " TEXT" + "," +
+                    AlarmEntry.COL_SWITCH + " INTEGER" +
                     " )";
 
     public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + AlarmEntry.TABLE_NAME;
@@ -42,7 +45,7 @@ public class AlarmDatabase {
 
 
         private static final String DATABASE_NAME = "message.db";
-        private static final int DATABASE_VERSION = 1;
+        private static final int DATABASE_VERSION = 2;
 
         public Helper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -62,11 +65,14 @@ public class AlarmDatabase {
 
     // adds dummy values to database to show dummy alarms
     public static void testDatabase(Context context) {
-        addAlarm(context, "Class", "8:30 AM", "Monday");
+        addAlarm(context, "Class", "8:30 AM", "Monday", 1);
     }
 
     // method to add new alarms **not used yet**
-    public static void addAlarm(Context context, String title, String time, String day) {
+    public static void addAlarm(Context context, String title, String time, String day, Integer enabled) {
+        if (enabled != 0 || enabled != 1) {
+            Log.v(TAG, "Invalid alarm input");
+        }
         Helper helper = new Helper(context);
 
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -75,6 +81,7 @@ public class AlarmDatabase {
         content.put(AlarmEntry.COL_TITLE, title);
         content.put(AlarmEntry.COL_TIME, time);
         content.put(AlarmEntry.COL_DAY, day);
+        content.put(AlarmEntry.COL_SWITCH, enabled);
         try {
             long newRowId = db.insert(AlarmEntry.TABLE_NAME, null, content);
         }catch (SQLiteConstraintException e) {}
@@ -89,7 +96,9 @@ public class AlarmDatabase {
                 AlarmEntry._ID,
                 AlarmEntry.COL_TITLE,
                 AlarmEntry.COL_TIME,
-                AlarmEntry.COL_DAY};
+                AlarmEntry.COL_DAY,
+                AlarmEntry.COL_SWITCH
+        };
 
         Cursor results = db.query(AlarmEntry.TABLE_NAME, cols, null, null, null, null, AlarmEntry._ID + " DESC");
 

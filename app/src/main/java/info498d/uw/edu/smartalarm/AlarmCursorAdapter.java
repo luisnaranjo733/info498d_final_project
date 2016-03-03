@@ -43,11 +43,17 @@ public class AlarmCursorAdapter extends CursorAdapter {
         String time = cursor.getString(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_TIME));
         String day = cursor.getString(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_DAY));
         String title = cursor.getString(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_TITLE));
+        int enabled = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_SWITCH));
 
         // Populate fields with extracted properties
         alarmTime.setText(time);
         Log.v(TAG, "" + day + " vs " + String.valueOf(day));
         alarmDay.setText(String.valueOf(day));
         alarmTitle.setText(title);
+        if (enabled == 1) {
+            alarmSwitch.setChecked(true);
+        } else {
+            alarmSwitch.setChecked(false);
+        }
     }
 }
