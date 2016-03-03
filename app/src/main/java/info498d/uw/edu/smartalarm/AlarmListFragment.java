@@ -12,6 +12,11 @@ import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.TimeZone;
+
 /**
  * Created by kai on 2/27/16.
  */
@@ -53,6 +58,12 @@ public class AlarmListFragment extends Fragment {
         // *** calling these populates the alarm with every reinstall ***
         // *** remove or comment out to stop populating ***
 //        runTest();
+
+        List<Alarm> alarms = Alarm.listAll(Alarm.class);
+        for (int i=0; i < alarms.size(); i++) {
+            Alarm alarm = alarms.get(i);
+            Log.v(TAG, "" + i + ": " + alarm.toString());
+        }
 
 
         Cursor cursor = AlarmDatabase.queryDatabase(getActivity());
