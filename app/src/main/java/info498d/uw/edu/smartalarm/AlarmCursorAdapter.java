@@ -2,11 +2,11 @@ package info498d.uw.edu.smartalarm;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -33,17 +33,31 @@ public class AlarmCursorAdapter extends CursorAdapter {
     // such as setting the text on a TextView.
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        // Extract properties from cursor
+        final int pk = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry._ID));
+        String time = cursor.getString(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_TIME));
+        String day = cursor.getString(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_DAY));
+        String title = cursor.getString(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_TITLE));
+        final int enabled = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_SWITCH));
+
         // Find fields to populate in inflated template
         TextView alarmTime = (TextView) view.findViewById(R.id.alarm_item_time);
         TextView alarmDay = (TextView) view.findViewById(R.id.alarm_item_day);
         TextView alarmTitle = (TextView) view.findViewById(R.id.alarm_item_title);
         Switch alarmSwitch = (Switch) view.findViewById(R.id.alarm_item_switch);
+        alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.v(TAG, "Toggle button pressed: " + pk);
+                if (enabled == 0) {
+                    Log.v(TAG, "Enable " + pk);
+                } else if (enabled == 1) {
+                    Log.v(TAG, "Disable " + pk);
+                }
 
-        // Extract properties from cursor
-        String time = cursor.getString(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_TIME));
-        String day = cursor.getString(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_DAY));
-        String title = cursor.getString(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_TITLE));
-        int enabled = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_SWITCH));
+            }
+        });
+
 
         // Populate fields with extracted properties
         alarmTime.setText(time);
@@ -52,7 +66,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
         alarmTitle.setText(title);
         if (enabled == 1) {
             alarmSwitch.setChecked(true);
-        } else {
+        } else if (enabled == 0){
             alarmSwitch.setChecked(false);
         }
     }
