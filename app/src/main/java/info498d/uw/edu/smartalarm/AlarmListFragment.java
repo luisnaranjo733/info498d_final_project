@@ -52,7 +52,7 @@ public class AlarmListFragment extends Fragment {
 
         // *** calling these populates the alarm with every reinstall ***
         // *** remove or comment out to stop populating ***
-        //runTest();
+//        runTest();
 
 
         Cursor cursor = AlarmDatabase.queryDatabase(getActivity());

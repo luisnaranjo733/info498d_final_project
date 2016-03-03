@@ -32,7 +32,7 @@ public class AlarmCursorAdapter extends CursorAdapter {
     // The bindView method is used to bind all data to a given view
     // such as setting the text on a TextView.
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         // Extract properties from cursor
         final int pk = cursor.getInt(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry._ID));
         String time = cursor.getString(cursor.getColumnIndexOrThrow(AlarmDatabase.AlarmEntry.COL_TIME));
@@ -51,8 +51,10 @@ public class AlarmCursorAdapter extends CursorAdapter {
                 Log.v(TAG, "Toggle button pressed: " + pk);
                 if (enabled == 0) {
                     Log.v(TAG, "Enable " + pk);
+                    AlarmDatabase.updateAlarm(context, pk, 1);
                 } else if (enabled == 1) {
                     Log.v(TAG, "Disable " + pk);
+                    AlarmDatabase.updateAlarm(context, pk, 0);
                 }
 
             }

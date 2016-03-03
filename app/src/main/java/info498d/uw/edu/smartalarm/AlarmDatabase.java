@@ -45,7 +45,7 @@ public class AlarmDatabase {
 
 
         private static final String DATABASE_NAME = "message.db";
-        private static final int DATABASE_VERSION = 2;
+        private static final int DATABASE_VERSION = 3;
 
         public Helper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -69,7 +69,7 @@ public class AlarmDatabase {
     }
 
     // method to add new alarms **not used yet**
-    public static void addAlarm(Context context, String title, String time, String day, Integer enabled) {
+    public static void addAlarm(Context context, String title, String time, String day, int enabled) {
         if (enabled != 0 || enabled != 1) {
             Log.v(TAG, "Invalid alarm input");
         }
@@ -88,6 +88,7 @@ public class AlarmDatabase {
     }
 
     public static void updateAlarm(Context context, long rowId, int switchInt) {
+        Log.v(TAG, "update switch in db");
         Helper helper = new Helper(context);
 
         SQLiteDatabase db = helper.getWritableDatabase();
