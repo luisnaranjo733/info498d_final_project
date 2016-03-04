@@ -21,31 +21,35 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     protected static String TAG = "**SmartAlarm.Main";
     Menu menu;
 
-    // fragment managing objects
     FragmentManager fragmentManager = getFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+    AlarmListFragment alarmListFragment;
+    AlarmDetailsFragment alarmDetailsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (fragmentManager == null) {
+            fragmentManager = getFragmentManager();
+        }
+
+        alarmListFragment = new AlarmListFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
         if (findViewById(R.id.master_fragment_right) != null) {
             Log.v(TAG, "Landscape mode");
-            fragmentTransaction.add(R.id.master_fragment, new AlarmListFragment());
-            fragmentTransaction.add(R.id.master_fragment_right, new AlarmDetailsFragment());
-            fragmentTransaction.commit();
+            alarmDetailsFragment = new AlarmDetailsFragment();
+            fragmentTransaction.add(R.id.master_fragment, alarmListFragment);
+            fragmentTransaction.add(R.id.master_fragment_right, alarmDetailsFragment);
 
         } else {
             Log.v(TAG, "Portrait mode");
-            AlarmListFragment alarmList = new AlarmListFragment();
-            fragmentTransaction.add(R.id.master_fragment, alarmList);
-            fragmentTransaction.commit();
+            fragmentTransaction.add(R.id.master_fragment, alarmListFragment);
         }
-        
-        // TODO: how are we going to store alarms? (sqlite or something else?)
-        // TODO: need to set up settings and let them be stored
+        fragmentTransaction.commit();
+
     }
 
     @Override
@@ -78,14 +82,15 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     // listens for alarm being clicked to show details
     @Override
     public void onAlarmSelected() {
-        AlarmDetailsFragment alarmDetails = new AlarmDetailsFragment();
+        if (alarmDetailsFragment == null) {
+            alarmDetailsFragment = new AlarmDetailsFragment();
+        }
 
-        Log.v(TAG, "alarm clicked");
-        getFragmentManager().beginTransaction()
-                .replace(R.id.master_fragment, alarmDetails)
-                .addToBackStack(null)
-                .commit();
+        Log.v(TAG, "onAlarmSelected");
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.master_fragment, alarmDetailsFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
-
 
 }
