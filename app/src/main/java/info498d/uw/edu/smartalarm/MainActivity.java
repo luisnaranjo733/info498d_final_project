@@ -81,10 +81,12 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
 
     // listens for alarm being clicked to show details
     @Override
-    public void onAlarmSelected() {
+    public void onAlarmSelected(Alarm alarm) {
         if (alarmDetailsFragment == null) {
             alarmDetailsFragment = new AlarmDetailsFragment();
         }
+
+        alarmDetailsFragment.setAlarm(alarm);
 
         Log.v(TAG, "onAlarmSelected");
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -27,7 +27,7 @@ public class AlarmListFragment extends Fragment {
     private OnAlarmSelectedListener callback;
 
     public interface OnAlarmSelectedListener {
-        public void onAlarmSelected();
+        public void onAlarmSelected(Alarm alarm);
     }
 
     public AlarmListFragment() {
@@ -75,7 +75,7 @@ public class AlarmListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v(TAG, "Item clicked!");
                 Alarm alarm = (Alarm) parent.getItemAtPosition(position);
-                ((OnAlarmSelectedListener)getActivity()).onAlarmSelected();
+                ((OnAlarmSelectedListener)getActivity()).onAlarmSelected(alarm);
 
             }
         });

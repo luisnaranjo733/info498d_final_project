@@ -26,4 +26,8 @@ public class AlarmDetailsFragment extends Fragment {
 
         return rootView;
     }
+
+    public void setAlarm(Alarm alarm) {
+
+    }
 }
