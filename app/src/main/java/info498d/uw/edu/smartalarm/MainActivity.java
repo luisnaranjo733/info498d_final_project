@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
+import android.widget.FrameLayout;
 import android.widget.SimpleCursorAdapter;
 
 public class MainActivity extends AppCompatActivity implements AlarmListFragment.OnAlarmSelectedListener {
@@ -24,17 +25,25 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     FragmentManager fragmentManager = getFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // opens list of alarms
-        AlarmListFragment alarmList = new AlarmListFragment();
-        fragmentTransaction.add(R.id.master_fragment, alarmList);
-        fragmentTransaction.commit();
+        if (findViewById(R.id.master_fragment_right) != null) {
+            Log.v(TAG, "Landscape mode");
+            fragmentTransaction.add(R.id.master_fragment, new AlarmListFragment());
+            fragmentTransaction.add(R.id.master_fragment_right, new AlarmDetailsFragment());
+            fragmentTransaction.commit();
 
-        // TODO: set landscape mode for alarms
+        } else {
+            Log.v(TAG, "Portrait mode");
+            AlarmListFragment alarmList = new AlarmListFragment();
+            fragmentTransaction.add(R.id.master_fragment, alarmList);
+            fragmentTransaction.commit();
+        }
+        
         // TODO: how are we going to store alarms? (sqlite or something else?)
         // TODO: need to set up settings and let them be stored
     }
@@ -56,6 +65,13 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
             }
         });
         return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        super.onConfigurationChanged(newConfig);
+        Log.v(TAG, "orientation changed");
+        setContentView(R.layout.activity_main);
     }
 
 
