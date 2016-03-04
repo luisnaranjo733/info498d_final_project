@@ -38,15 +38,15 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         alarmListFragment = new AlarmListFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (findViewById(R.id.master_fragment_right) != null) {
+        if (findViewById(R.id.rightPane) != null) {
             Log.v(TAG, "Landscape mode");
             alarmDetailsFragment = new AlarmDetailsFragment();
-            fragmentTransaction.add(R.id.master_fragment, alarmListFragment);
-            fragmentTransaction.add(R.id.master_fragment_right, alarmDetailsFragment);
+            fragmentTransaction.add(R.id.leftPane, alarmListFragment);
+            fragmentTransaction.add(R.id.rightPane, alarmDetailsFragment);
 
         } else {
             Log.v(TAG, "Portrait mode");
-            fragmentTransaction.add(R.id.master_fragment, alarmListFragment);
+            fragmentTransaction.add(R.id.singlePane, alarmListFragment);
         }
         fragmentTransaction.commit();
 
@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
                 Log.v(TAG, "Opening settings activity");
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
+
                 // Return true to consume this click and prevent others from executing.
                 return true;
             }
@@ -86,11 +87,21 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
             alarmDetailsFragment = new AlarmDetailsFragment();
         }
 
-        alarmDetailsFragment.setAlarm(alarm);
+        Bundle bundle = new Bundle();
+        bundle.putString("title", alarm.alarmTitle);
+        bundle.putString("day", alarm.getDay());
+        bundle.putString("time", alarm.getTime());
+        bundle.putBoolean("active", alarm.active);
+
+        alarmDetailsFragment.setArguments(bundle);
 
         Log.v(TAG, "onAlarmSelected");
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.master_fragment, alarmDetailsFragment);
+        if (findViewById(R.id.rightPane) != null) {
+            fragmentTransaction.replace(R.id.leftPane, alarmDetailsFragment);
+        } else {
+            fragmentTransaction.replace(R.id.singlePane, alarmDetailsFragment);
+        }
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

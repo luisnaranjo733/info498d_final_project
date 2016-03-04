@@ -1,12 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="50dp">
 
     <TextView
+        android:id="@+id/alarmDescTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Alarm Details"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:text="Wake up for class"
         />
+
+
+    <TextView
+        android:id="@+id/alarmDescTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:textSize="30dp"
+        android:text="7:30 AM"/>
+
+    <TextView
+        android:id="@+id/alarmDescDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:textSize="25dp"
+        android:text="March 15, 2016"/>
+
+    <TextView
+        android:id="@+id/alarmDescJustification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:textSize="20dp"
+        android:text="We generated this alarm because ... "/>
 
 </LinearLayout>

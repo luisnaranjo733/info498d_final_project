@@ -4,16 +4,16 @@
     android:layout_height="match_parent">
 
     <FrameLayout
+        android:id="@+id/leftPane"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/master_fragment"
         android:layout_weight="1"
         />
 
     <FrameLayout
+        android:id="@+id/rightPane"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/master_fragment_right"
         android:layout_weight="1"
         />
 
