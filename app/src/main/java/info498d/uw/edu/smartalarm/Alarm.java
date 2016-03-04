@@ -42,7 +42,7 @@ public class Alarm extends SugarRecord {
     public String getTime() {
         GregorianCalendar calendar = getDate();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minute = calendar.get(Calendar.MINUTE);
+        int minutes = calendar.get(Calendar.MINUTE);
         String amPM;
         if (calendar.get(Calendar.AM_PM) == 0) {
             amPM = "AM";
@@ -50,7 +50,14 @@ public class Alarm extends SugarRecord {
             amPM = "PM";
             hour = hour - 12;
         }
-        return "" + hour + ":" + minute + " " + amPM;
+        String time;
+        time = "" + hour + ":";
+        if (minutes < 10) {
+            time += "0";
+        }
+        time += minutes;
+        time += " " + amPM;
+        return time;
     }
 
     public String getDay() {
