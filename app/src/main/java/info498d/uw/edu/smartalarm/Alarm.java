@@ -1,5 +1,6 @@
 package info498d.uw.edu.smartalarm;
 
+import android.provider.CalendarContract;
 import android.util.Log;
 
 import com.orm.SugarRecord;
@@ -16,13 +17,15 @@ public class Alarm extends SugarRecord {
 
     String alarmTitle;
     long timestamp;
+    boolean active;
 
     public Alarm() {
     }
 
-    public Alarm(String alarmTitle, long timestamp) {
+    public Alarm(String alarmTitle, long timestamp, boolean active) {
         this.alarmTitle = alarmTitle;
         this.timestamp = timestamp;
+        this.active = active;
     }
 
     public String toString() {
@@ -50,13 +53,29 @@ public class Alarm extends SugarRecord {
         return "" + hour + ":" + minute + " " + amPM;
     }
 
+    public String getDay() {
+        GregorianCalendar calendar = getDate();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        switch(day) {
+            case 1: return "Sunday";
+            case 2: return "Monday";
+            case 3: return "Tuesday";
+            case 4: return "Wednesday";
+            case 5: return "Thursday";
+            case 6: return "Friday";
+            case 7: return "Saturday";
+            default: return "";
+        }
+    }
+
+
     public static void newDefaultInstance() {
         //Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         //int year = 2016; int month=3; int day=3; int hour=11; int minute=30; int second=31;
         //cal.set(year + 1900, month, day, hour, minute, second);
         Calendar cal = new GregorianCalendar();
         long datetime = cal.getTime().getTime();
-        Alarm alarm = new Alarm("Wake up for class", datetime);
+        Alarm alarm = new Alarm("Wake up for class", datetime, false);
         alarm.save();
     }
 }
