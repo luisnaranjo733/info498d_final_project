@@ -1,26 +1,55 @@
 package info498d.uw.edu.smartalarm;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CursorAdapter;
+import android.widget.FrameLayout;
+import android.widget.SimpleCursorAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AlarmListFragment.OnAlarmSelectedListener {
     protected static String TAG = "**SmartAlarm.Main";
     Menu menu;
+
+    FragmentManager fragmentManager = getFragmentManager();
+
+    AlarmListFragment alarmListFragment;
+    AlarmDetailsFragment alarmDetailsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO: set up list view for alarms
-        // TODO: how are we going to store alarms?
-        // TODO: set up master/detail view for alarms
-        // TODO: need to set up settings and let them be stored
+        if (fragmentManager == null) {
+            fragmentManager = getFragmentManager();
+        }
+
+        alarmListFragment = new AlarmListFragment();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (findViewById(R.id.rightPane) != null) {
+            Log.v(TAG, "Landscape mode");
+            alarmDetailsFragment = new AlarmDetailsFragment();
+            fragmentTransaction.add(R.id.leftPane, alarmListFragment);
+            fragmentTransaction.add(R.id.rightPane, alarmDetailsFragment);
+
+        } else {
+            Log.v(TAG, "Portrait mode");
+            fragmentTransaction.add(R.id.singlePane, alarmListFragment);
+        }
+        fragmentTransaction.commit();
+
     }
 
     @Override
@@ -35,10 +64,46 @@ public class MainActivity extends AppCompatActivity {
                 Log.v(TAG, "Opening settings activity");
                 Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
+
                 // Return true to consume this click and prevent others from executing.
                 return true;
             }
         });
         return true;
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        super.onConfigurationChanged(newConfig);
+        Log.v(TAG, "orientation changed");
+        setContentView(R.layout.activity_main);
+    }
+
+
+    // listens for alarm being clicked to show details
+    @Override
+    public void onAlarmSelected(Alarm alarm) {
+        if (alarmDetailsFragment == null) {
+            alarmDetailsFragment = new AlarmDetailsFragment();
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("title", alarm.alarmTitle);
+        bundle.putString("day", alarm.getDay());
+        bundle.putString("time", alarm.getTime());
+        bundle.putBoolean("active", alarm.active);
+
+        alarmDetailsFragment.setArguments(bundle);
+
+        Log.v(TAG, "onAlarmSelected");
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (findViewById(R.id.rightPane) != null) {
+            fragmentTransaction.replace(R.id.leftPane, alarmDetailsFragment);
+        } else {
+            fragmentTransaction.replace(R.id.singlePane, alarmDetailsFragment);
+        }
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 }
