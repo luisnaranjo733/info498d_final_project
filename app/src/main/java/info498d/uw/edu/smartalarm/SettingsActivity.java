@@ -18,7 +18,5 @@ public class SettingsActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // TODO: Get rid of this, only for testing purposes
-        Alarm.newDefaultInstance();
     }
 }

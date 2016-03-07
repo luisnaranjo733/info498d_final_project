@@ -18,7 +18,7 @@
         android:id="@+id/addAlarmButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="click"
+        android:text="Set an alarm!"
         android:layout_alignParentBottom="true"
         />
 </RelativeLayout>

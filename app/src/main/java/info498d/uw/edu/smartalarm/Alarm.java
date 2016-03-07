@@ -76,7 +76,7 @@ public class Alarm extends SugarRecord {
     }
 
 
-    public static void newDefaultInstance() {
+    public static Alarm newDefaultInstance() {
         //Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
         //int year = 2016; int month=3; int day=3; int hour=11; int minute=30; int second=31;
         //cal.set(year + 1900, month, day, hour, minute, second);
@@ -84,5 +84,6 @@ public class Alarm extends SugarRecord {
         long datetime = cal.getTime().getTime();
         Alarm alarm = new Alarm("Wake up for class", datetime, false);
         alarm.save();
+        return alarm;
     }
 }

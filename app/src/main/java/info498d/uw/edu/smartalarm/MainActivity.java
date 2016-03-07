@@ -3,20 +3,20 @@ package info498d.uw.edu.smartalarm;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements AlarmListFragment.OnAlarmSelectedListener {
     protected static String TAG = "**SmartAlarm.Main";
     Menu menu;
 
     AlarmListFragment alarmListFragment;
-    AlarmDetailsFragment alarmDetailsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
 
         if (findViewById(R.id.rightPane) != null) {
             Log.v(TAG, "Landscape mode");
-            alarmDetailsFragment = new AlarmDetailsFragment();
-            fragmentTransaction.add(R.id.leftPane, alarmListFragment);
-            fragmentTransaction.add(R.id.rightPane, alarmDetailsFragment);
+//            alarmDetailsFragment = new AlarmDetailsFragment();
+//            fragmentTransaction.add(R.id.leftPane, alarmListFragment);
+//            fragmentTransaction.add(R.id.rightPane, alarmDetailsFragment);
 
         } else {
             Log.v(TAG, "Portrait mode");
