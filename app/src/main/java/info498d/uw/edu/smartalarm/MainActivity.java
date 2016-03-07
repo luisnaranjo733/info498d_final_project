@@ -3,6 +3,7 @@ package info498d.uw.edu.smartalarm;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
             Log.v(TAG, "Portrait mode");
             fragmentTransaction.add(R.id.singlePane, alarmListFragment);
         }
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
     }
@@ -75,9 +75,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     // listens for alarm being clicked to show details
     @Override
     public void onAlarmSelected(Alarm alarm) {
-        if (alarmDetailsFragment == null) {
-            alarmDetailsFragment = new AlarmDetailsFragment();
-        }
+        AlarmDetailsFragment alarmDetailsFragment = new AlarmDetailsFragment();
 
         Bundle bundle = new Bundle();
         bundle.putString("title", alarm.alarmTitle);
