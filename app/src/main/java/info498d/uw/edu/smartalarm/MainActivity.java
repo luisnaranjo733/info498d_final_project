@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
 
         if (findViewById(R.id.rightPane) != null) {
             Log.v(TAG, "Landscape mode");
-//            alarmDetailsFragment = new AlarmDetailsFragment();
-//            fragmentTransaction.add(R.id.leftPane, alarmListFragment);
-//            fragmentTransaction.add(R.id.rightPane, alarmDetailsFragment);
+            AlarmDetailsFragment alarmDetailsFragment = new AlarmDetailsFragment();
+            fragmentTransaction.add(R.id.leftPane, alarmListFragment);
+            fragmentTransaction.add(R.id.rightPane, alarmDetailsFragment);
 
         } else {
             Log.v(TAG, "Portrait mode");
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         Log.v(TAG, "onAlarmSelected");
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         if (findViewById(R.id.rightPane) != null) {
-            fragmentTransaction.replace(R.id.leftPane, alarmDetailsFragment);
+            fragmentTransaction.replace(R.id.rightPane, alarmDetailsFragment);
         } else {
             fragmentTransaction.replace(R.id.singlePane, alarmDetailsFragment);
         }
