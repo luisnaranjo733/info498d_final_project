@@ -2,6 +2,7 @@ package info498d.uw.edu.smartalarm;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -100,9 +101,12 @@ public class AlarmListFragment extends Fragment {
             public void onClick(View v) {
                 if (adapter != null) {
                     Log.v(TAG, "Created new alarm");
-                    Alarm newAlarm = Alarm.newDefaultInstance();
-                    adapter.add(newAlarm);
-                    adapter.notifyDataSetChanged();
+                    Intent intent = new Intent(getActivity(), NewAlarmActivity.class);
+                    startActivity(intent);
+
+//                    Alarm newAlarm = Alarm.newDefaultInstance();
+//                    adapter.add(newAlarm);
+//                    adapter.notifyDataSetChanged();
                 }
 
             }
