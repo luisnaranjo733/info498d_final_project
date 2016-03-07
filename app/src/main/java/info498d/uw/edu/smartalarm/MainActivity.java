@@ -3,6 +3,7 @@ package info498d.uw.edu.smartalarm;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,19 +42,9 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
             fragmentTransaction.add(R.id.singlePane, alarmListFragment);
         }
         fragmentTransaction.commit();
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                getFragmentManager().popBackStack();
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,7 +97,6 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         }
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -116,19 +106,6 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        //This method is called when the up button is pressed. Just the pop back stack.
-        Log.v(TAG, "it works?");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        return true;
-    }
-
-    public void onBackStackChanged() {
-        Log.v(TAG, "it works2?");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
 }
