@@ -30,6 +30,7 @@ public class AlarmDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_alarm_details, container, false);
+
         Bundle bundle = getArguments();
 
         if (alarmTitle == null) {
@@ -42,19 +43,23 @@ public class AlarmDetailsFragment extends Fragment {
             alarmDate = (TextView) rootView.findViewById(R.id.alarmDescDate);
         }
 
-        final String title = bundle.getString("title");
-        final String time = bundle.getString("time");
-        final String date = bundle.getString("day");
-        boolean active = bundle.getBoolean("active");
+        if (bundle != null) {
+            final String title = bundle.getString("title");
+            final String time = bundle.getString("time");
+            final String date = bundle.getString("day");
+            boolean active = bundle.getBoolean("active");
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                alarmTitle.setText(title);
-                alarmTime.setText(time);
-                alarmDate.setText(date);
-            }
-        });
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    alarmTitle.setText(title);
+                    alarmTime.setText(time);
+                    alarmDate.setText(date);
+                }
+            });
+        }
+
+
 
 
 

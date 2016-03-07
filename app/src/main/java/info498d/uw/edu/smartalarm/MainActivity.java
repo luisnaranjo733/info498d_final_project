@@ -3,6 +3,8 @@ package info498d.uw.edu.smartalarm;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,9 +33,9 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
 
         if (findViewById(R.id.rightPane) != null) {
             Log.v(TAG, "Landscape mode");
-//            alarmDetailsFragment = new AlarmDetailsFragment();
-//            fragmentTransaction.add(R.id.leftPane, alarmListFragment);
-//            fragmentTransaction.add(R.id.rightPane, alarmDetailsFragment);
+            AlarmDetailsFragment alarmDetailsFragment = new AlarmDetailsFragment();
+            fragmentTransaction.add(R.id.leftPane, alarmListFragment);
+            fragmentTransaction.add(R.id.rightPane, alarmDetailsFragment);
 
         } else {
             Log.v(TAG, "Portrait mode");
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         fragmentTransaction.commit();
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -88,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         Log.v(TAG, "onAlarmSelected");
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         if (findViewById(R.id.rightPane) != null) {
-            fragmentTransaction.replace(R.id.leftPane, alarmDetailsFragment);
+            fragmentTransaction.replace(R.id.rightPane, alarmDetailsFragment);
         } else {
             fragmentTransaction.replace(R.id.singlePane, alarmDetailsFragment);
         }
