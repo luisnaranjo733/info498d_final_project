@@ -30,6 +30,7 @@ public class AlarmDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View rootView = inflater.inflate(R.layout.fragment_alarm_details, container, false);
+
         Bundle bundle = getArguments();
 
         if (alarmTitle == null) {
