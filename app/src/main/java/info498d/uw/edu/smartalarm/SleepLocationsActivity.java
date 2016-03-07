@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,6 +43,7 @@ public class SleepLocationsActivity extends AppCompatActivity implements OnMapRe
             // Log.v(TAG, sleepLocationList.toString());
         }
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -48,7 +52,25 @@ public class SleepLocationsActivity extends AppCompatActivity implements OnMapRe
         mapFragment.getMapAsync(this);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sleep_locations_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        mMap.clear();
+        SharedPreferences sharedPref = getSharedPreferences("SLEEP_LOCATIONS", Context.MODE_PRIVATE);
+        // String sleepLocations = sharedPref.getString("sleepLocations", "");
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("sleepLocations", "");
+        editor.commit();
+        return true;
+    }
 
     /**
      * Manipulates the map once available.
