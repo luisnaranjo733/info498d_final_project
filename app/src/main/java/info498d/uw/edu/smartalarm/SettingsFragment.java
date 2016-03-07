@@ -32,7 +32,7 @@ public class SettingsFragment extends PreferenceFragment {
         sleepPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(getActivity(), SleepLocations.class);
+                Intent intent = new Intent(getActivity(), SleepLocationsActivity.class);
                 startActivity(intent);
                 return true;
             }
