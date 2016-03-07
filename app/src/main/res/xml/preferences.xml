@@ -14,10 +14,11 @@
         <Preference
             android:title="Sleep Locations"
             android:key="pref_key_sleep_locations" />
-        <EditTextPreference
+        <info498d.uw.edu.smartalarm.TimePreference
             android:title="Target Bed Time"
             android:key="pref_key_bed_time"
             android:inputType="time"/>
+
     </PreferenceCategory>
     <PreferenceCategory
         android:title="Customization"
