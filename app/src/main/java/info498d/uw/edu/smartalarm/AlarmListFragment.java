@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
 
@@ -25,6 +26,7 @@ public class AlarmListFragment extends Fragment {
     private static final String TAG = "**Alarm.AlarmListFrag";
 
     private OnAlarmSelectedListener callback;
+    protected AlarmAdapter adapter;
 
     public interface OnAlarmSelectedListener {
         public void onAlarmSelected(Alarm alarm);
@@ -49,10 +51,6 @@ public class AlarmListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if (container != null) {
-            container.removeAllViews();
-        }
-
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_alarm_list, container, false);
 
@@ -63,7 +61,9 @@ public class AlarmListFragment extends Fragment {
             Log.v(TAG, "" + i + ": " + alarm.toString());
         }
 
-        AlarmAdapter adapter = new AlarmAdapter(getActivity(), alarms);
+        if (adapter == null) {
+            adapter = new AlarmAdapter(getActivity(), alarms);
+        }
 
         //set the adapter
         AdapterView listView = (AdapterView) rootView.findViewById(R.id.alarm_list_view);
@@ -80,6 +80,30 @@ public class AlarmListFragment extends Fragment {
             }
         });
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Alarm alarm = (Alarm) parent.getItemAtPosition(position);
+                alarm.delete();
+                adapter.remove(alarm);
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+
+        Button addAlarm = (Button) rootView.findViewById(R.id.addAlarmButton);
+        addAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (adapter != null) {
+                    Log.v(TAG, "Created new alarm");
+                    Alarm newAlarm = Alarm.newDefaultInstance();
+                    adapter.add(newAlarm);
+                    adapter.notifyDataSetChanged();
+                }
+
+            }
+        });
 
         return rootView;
     }

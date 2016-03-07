@@ -1,10 +1,8 @@
 package info498d.uw.edu.smartalarm;
 
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,37 +10,30 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CursorAdapter;
-import android.widget.FrameLayout;
-import android.widget.SimpleCursorAdapter;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements AlarmListFragment.OnAlarmSelectedListener {
     protected static String TAG = "**SmartAlarm.Main";
     Menu menu;
 
-    FragmentManager fragmentManager = getFragmentManager();
-
     AlarmListFragment alarmListFragment;
-    AlarmDetailsFragment alarmDetailsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (fragmentManager == null) {
-            fragmentManager = getFragmentManager();
+        if (alarmListFragment == null) {
+            alarmListFragment = new AlarmListFragment();
         }
 
-        alarmListFragment = new AlarmListFragment();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
         if (findViewById(R.id.rightPane) != null) {
             Log.v(TAG, "Landscape mode");
-            alarmDetailsFragment = new AlarmDetailsFragment();
-            fragmentTransaction.add(R.id.leftPane, alarmListFragment);
-            fragmentTransaction.add(R.id.rightPane, alarmDetailsFragment);
+//            alarmDetailsFragment = new AlarmDetailsFragment();
+//            fragmentTransaction.add(R.id.leftPane, alarmListFragment);
+//            fragmentTransaction.add(R.id.rightPane, alarmDetailsFragment);
 
         } else {
             Log.v(TAG, "Portrait mode");
@@ -72,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         return true;
     }
 
+    // where does this come from?
     @Override
     public void onConfigurationChanged(Configuration newConfig){
         super.onConfigurationChanged(newConfig);
@@ -83,9 +75,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     // listens for alarm being clicked to show details
     @Override
     public void onAlarmSelected(Alarm alarm) {
-        if (alarmDetailsFragment == null) {
-            alarmDetailsFragment = new AlarmDetailsFragment();
-        }
+        AlarmDetailsFragment alarmDetailsFragment = new AlarmDetailsFragment();
 
         Bundle bundle = new Bundle();
         bundle.putString("title", alarm.alarmTitle);
@@ -96,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         alarmDetailsFragment.setArguments(bundle);
 
         Log.v(TAG, "onAlarmSelected");
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         if (findViewById(R.id.rightPane) != null) {
             fragmentTransaction.replace(R.id.leftPane, alarmDetailsFragment);
         } else {
@@ -104,6 +94,15 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         }
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0 ){
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }
