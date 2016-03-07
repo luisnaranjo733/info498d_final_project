@@ -4,16 +4,21 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Binder;
 import android.os.IBinder;
 import android.provider.CalendarContract;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class CheckLocationService extends Service {
 
     private static final String TAG = "CHECK_LOCATION_SERVICE";
+    private MyLocation.LocationResult locationResult;
+    private MyLocation myLocation;
     public CheckLocationService() {
     }
 
@@ -21,6 +26,16 @@ public class CheckLocationService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.v(TAG, "service is started");
         super.onStartCommand(intent, flags, startId);
+
+        locationResult = new MyLocation.LocationResult() {
+            @Override
+            public void gotLocation(Location location) {
+
+                Log.v(TAG, location.toString());
+            }
+        };
+
+        myLocation = new MyLocation();
         startLocationCheck();
         return Service.START_STICKY;
     }
@@ -50,7 +65,8 @@ public class CheckLocationService extends Service {
         int minute = c.get(Calendar.MINUTE);
         Log.v(TAG, "this is the current time: " + hour + ":" + minute);
         // TODO: figure out when to start checking location
-        
+
+        myLocation.getLocation(this, locationResult);
 
     }
 }
