@@ -159,7 +159,7 @@ public class AlarmListFragment extends Fragment {
             // Populate the data into the template view using the data object
 
             alarmTime.setText(alarm.getTimeRepresentation());
-            alarmDay.setText(alarm.getDay());
+            alarmDay.setText(alarm.getDate());
             alarmTitle.setText(alarm.alarmTitle);
             alarmSwitch.setChecked(alarm.active);
 

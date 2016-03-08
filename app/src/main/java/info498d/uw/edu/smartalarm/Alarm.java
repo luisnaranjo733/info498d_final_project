@@ -77,26 +77,36 @@ public class Alarm extends SugarRecord {
     }
 
     // get the day "Monday" or "Tuesday"
-    public String getDay() {
-        int day = getCal().get(Calendar.DAY_OF_WEEK);
-        switch (day) {
-            case 1:
-                return "Sunday";
-            case 2:
-                return "Monday";
-            case 3:
-                return "Tuesday";
-            case 4:
-                return "Wednesday";
-            case 5:
-                return "Thursday";
-            case 6:
-                return "Friday";
-            case 7:
-                return "Saturday";
-            default:
-                return "";
+    public String getDate() {
+        Calendar cal = getCal();
+        String date = "";
+
+        int day = cal.get(Calendar.DAY_OF_WEEK);
+        if (day == 1) {
+            date += "Sunday";
+        } else if (day == 2) {
+            date += "Monday";
+        } else if (day == 3) {
+            date += "Tuesday";
+        } else if (day == 4) {
+            date += "Wednesday";
+        } else if (day == 5) {
+            date += "Thursday";
+        } else if (day == 6) {
+            date += "Friday";
+        } else if (day == 7) {
+            date += "Saturday";
         }
+
+        date += " ";
+
+        // for conversion between 2016 to 16
+        int year = cal.get(Calendar.YEAR);
+        int lastPlace = year % 10; // save least significant digit from year
+        year = year / 10; // remove least significant digit from year
+        date += (cal.get(Calendar.MONTH) + 1) + "/" + (year % 10) + lastPlace;
+
+        return date;
 
     }
 }

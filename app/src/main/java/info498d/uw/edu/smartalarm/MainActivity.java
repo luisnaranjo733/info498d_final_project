@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
 
         Bundle bundle = new Bundle();
         bundle.putString("title", alarm.alarmTitle);
-        bundle.putString("day", alarm.getDay());
+        bundle.putString("day", alarm.getDate());
         bundle.putString("time", alarm.getTimeRepresentation());
         bundle.putBoolean("active", alarm.active);
 
