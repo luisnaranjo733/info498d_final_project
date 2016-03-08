@@ -64,11 +64,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="info498d.uw.edu.smartalarm.SettingsActivity" />
         </activity>
-<<<<<<< HEAD
+
 
         <service
             android:name=".CheckLocationService"
-=======
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity android:name=".NewAlarmActivity" />
 
         <receiver
@@ -78,9 +80,9 @@
 
         <service
             android:name=".AlarmService"
->>>>>>> alarm
             android:enabled="true"
             android:exported="true"></service>
+        
     </application>
 
 </manifest>
