@@ -77,8 +77,9 @@ public class NewAlarmActivity extends AppCompatActivity {
             Toast.makeText(this, "You need to set the time first!", Toast.LENGTH_SHORT).show();
         } else {
             //String alarmTitle, long timestamp, boolean active
-            Alarm alarm = Alarm.createAlarm(datePickerFragment.year, datePickerFragment.month,
-                    datePickerFragment.day, timePickerFragment.hourOfDay, timePickerFragment.minute);
+            Alarm alarm = new Alarm("ALARM", datePickerFragment.year, datePickerFragment.month,
+                    datePickerFragment.day, timePickerFragment.hourOfDay,
+                    timePickerFragment.minute, true);
             alarm.save();
             // then figure out how to tell the adapter in AlarmListFragment that the db has changed
             // http://developer.android.com/training/basics/intents/filters.html
