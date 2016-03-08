@@ -38,7 +38,7 @@ public class AlarmListFragment extends Fragment {
 
     public interface OnAlarmSelectedListener {
         public void onAlarmSelected(Alarm alarm);
-        public void onNewAlarmSelected();
+        public void onNewAlarmButtonPressed();
     }
 
     public AlarmListFragment() {
@@ -108,7 +108,7 @@ public class AlarmListFragment extends Fragment {
                 if (adapter != null) {
                     Log.v(TAG, "Created new alarm");
                 }
-                ((OnAlarmSelectedListener) getActivity()).onNewAlarmSelected();
+                ((OnAlarmSelectedListener) getActivity()).onNewAlarmButtonPressed();
 
             }
         });
