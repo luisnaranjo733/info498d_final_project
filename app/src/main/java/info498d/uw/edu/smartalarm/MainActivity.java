@@ -140,15 +140,6 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     @Override
     public void onNewAlarmSet(Alarm alarm) {
         Log.v(TAG, "Alarm set!");
-        //alarmListFragment.adapter.notifyDataSetChanged();
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Do something after 100ms
-                alarmListFragment.adapter.notifyDataSetChanged();
-            }
-        }, 1000);
-        //alarmListFragment.adapter.notifyDataSetChanged();
+        alarmListFragment.adapter.add(alarm);
     }
 }

@@ -34,7 +34,7 @@ public class AlarmListFragment extends Fragment {
     public static final int ADD_ALARM_REQUEST = 1;
 
     private OnAlarmSelectedListener callback;
-    protected AlarmAdapter adapter;
+    public AlarmAdapter adapter;
 
     public interface OnAlarmSelectedListener {
         public void onAlarmSelected(Alarm alarm);
