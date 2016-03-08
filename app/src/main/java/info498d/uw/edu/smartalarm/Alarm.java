@@ -4,8 +4,10 @@ import android.provider.CalendarContract;
 import android.util.Log;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
 import com.orm.dsl.Table;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -16,74 +18,101 @@ public class Alarm extends SugarRecord {
     public static final String TAG = "**Alarmdb";
 
     String alarmTitle;
-    long timestamp;
+    long timestamp; // local time in millis
     boolean active;
 
     public Alarm() {
     }
 
-    public Alarm(String alarmTitle, long timestamp, boolean active) {
+
+    /**
+     * Create an alarm instance
+     * Don't forget to call .save() to persist
+     *
+     * @param alarmTitle title of alarm
+     * the following parameters will be stored as unix epoch UTC timestamp
+     * @param year
+     * @param month
+     * @param day
+     * @param hour
+     * @param minute
+     * @param active true for enabled alarm, false for disabled
+     */
+    public Alarm(String alarmTitle, int year, int month, int day, int hour, int minute,
+                 boolean active) {
         this.alarmTitle = alarmTitle;
-        this.timestamp = timestamp;
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.set(year, month, day, hour, minute);
+        this.timestamp = cal.getTimeInMillis();
         this.active = active;
     }
 
+    private Calendar getCal() {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTimeInMillis(timestamp);
+        return cal;
+    }
+
+    // full string representation of the date and time
+    @Override
     public String toString() {
-        return "Alarm: " + alarmTitle + " @ " + getDate().toString();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm");
+        return sdf.format(getCal().getTime());
     }
 
-    public GregorianCalendar getDate() {
-        Date date = new Date(timestamp);
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
-        return calendar;
+    // get string that represents the year
+    public String getYear() {
+        return "" + getCal().get(Calendar.YEAR);
     }
 
-    public String getTime() {
-        GregorianCalendar calendar = getDate();
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int minutes = calendar.get(Calendar.MINUTE);
-        String amPM;
-        if (calendar.get(Calendar.AM_PM) == 0) {
-            amPM = "AM";
+    // get just the time "7:30 AM"
+    public String getTimeRepresentation() {
+        String minutes = "";
+        if (getCal().get(Calendar.MINUTE) < 10) {
+            minutes += "0";
+        }
+        minutes += getCal().get(Calendar.MINUTE);
+
+        String representation = "" + getCal().get(Calendar.HOUR) + ":" + minutes + " ";
+        if (getCal().get(Calendar.AM_PM) == 0) {
+            representation += "AM";
         } else {
-            amPM = "PM";
-            hour = hour - 12;
+            representation += "PM";
         }
-        String time;
-        time = "" + hour + ":";
-        if (minutes < 10) {
-            time += "0";
-        }
-        time += minutes;
-        time += " " + amPM;
-        return time;
+        return representation;
     }
 
-    public String getDay() {
-        GregorianCalendar calendar = getDate();
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
-        switch(day) {
-            case 1: return "Sunday";
-            case 2: return "Monday";
-            case 3: return "Tuesday";
-            case 4: return "Wednesday";
-            case 5: return "Thursday";
-            case 6: return "Friday";
-            case 7: return "Saturday";
-            default: return "";
+    // get the day "Monday" or "Tuesday"
+    public String getDate() {
+        Calendar cal = getCal();
+        String date = "";
+
+        int day = cal.get(Calendar.DAY_OF_WEEK);
+        if (day == 1) {
+            date += "Sunday";
+        } else if (day == 2) {
+            date += "Monday";
+        } else if (day == 3) {
+            date += "Tuesday";
+        } else if (day == 4) {
+            date += "Wednesday";
+        } else if (day == 5) {
+            date += "Thursday";
+        } else if (day == 6) {
+            date += "Friday";
+        } else if (day == 7) {
+            date += "Saturday";
         }
-    }
 
+        date += " ";
 
-    public static Alarm newDefaultInstance() {
-        //Calendar cal = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        //int year = 2016; int month=3; int day=3; int hour=11; int minute=30; int second=31;
-        //cal.set(year + 1900, month, day, hour, minute, second);
-        Calendar cal = new GregorianCalendar();
-        long datetime = cal.getTime().getTime();
-        Alarm alarm = new Alarm("Wake up for class", datetime, false);
-        alarm.save();
-        return alarm;
+        // for conversion between 2016 to 16
+        int year = cal.get(Calendar.YEAR);
+        int lastPlace = year % 10; // save least significant digit from year
+        year = year / 10; // remove least significant digit from year
+        date += (cal.get(Calendar.MONTH) + 1) + "/" + (year % 10) + lastPlace;
+
+        return date;
+
     }
 }
