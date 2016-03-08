@@ -58,10 +58,16 @@ public class CheckLocationService extends Service {
         Log.v(TAG, "this is the current time: " + hour + ":" + minute);
         // TODO: figure out when to start checking location
         locationResult = new MyLocation.LocationResult() {
+            SharedPreferences sleepLocationPreferences = getSharedPreferences("SLEEP_LOCATIONS", Context.MODE_PRIVATE);
+            String sleepLocations = sleepLocationPreferences.getString("sleepLocations", "");
             @Override
             public void gotLocation(Location location) {
+
+
+
                 Log.v(TAG, "got person location");
                 Log.v(TAG, location.toString());
+                Log.v(TAG, sleepLocations);
             }
         };
 
