@@ -71,17 +71,23 @@
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity android:name=".NewAlarmActivity" />
+        <activity android:name=".NewAlarmActivity"
+            android:parentActivityName=".MainActivity"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="info498d.uw.edu.smartalarm.NewAlarmActivity" />
+        </activity>
 
-        <receiver
-            android:name=".AlarmReceiver"
-            android:enabled="true"
-            android:exported="true" />
+        <!--<receiver-->
+            <!--android:name=".AlarmReceiver"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true" />-->
 
-        <service
-            android:name=".AlarmService"
-            android:enabled="true"
-            android:exported="true"></service>
+        <!--<service-->
+            <!--android:name=".AlarmService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="true"></service>-->
         
     </application>
 
