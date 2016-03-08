@@ -91,6 +91,10 @@
             <!--android:name=".AlarmService"-->
             <!--android:enabled="true"-->
             <!--android:exported="true"></service>-->
+
+        <receiver android:name="">
+
+        </receiver>
         
     </application>
 
