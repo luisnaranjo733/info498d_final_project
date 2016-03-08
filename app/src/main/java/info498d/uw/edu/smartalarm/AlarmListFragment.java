@@ -38,6 +38,7 @@ public class AlarmListFragment extends Fragment {
 
     public interface OnAlarmSelectedListener {
         public void onAlarmSelected(Alarm alarm);
+        public void onNewAlarmSelected();
     }
 
     public AlarmListFragment() {
@@ -106,41 +107,13 @@ public class AlarmListFragment extends Fragment {
             public void onClick(View v) {
                 if (adapter != null) {
                     Log.v(TAG, "Created new alarm");
-                    Intent intent = new Intent(getActivity(), NewAlarmActivity.class);
-                    startActivityForResult(intent, ADD_ALARM_REQUEST);
                 }
+                ((OnAlarmSelectedListener) getActivity()).onNewAlarmSelected();
 
             }
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.v(TAG, "2a");
-        // Check which request we're responding to
-        if (requestCode == ADD_ALARM_REQUEST) {
-            Log.v(TAG, "2b");
-            // Make sure the request was successful
-            if (resultCode == getActivity().RESULT_OK) {
-                Log.v(TAG, "2c");
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.v(TAG, "Notifying aapter");
-                        adapter.notifyDataSetChanged();
-                        //Do something after 100ms
-                    }
-                }, 10000);
-
-                // The user picked a contact.
-                // The Intent's data Uri identifies which contact was selected.
-
-                // Do something with the contact here (bigger example below)
-            }
-        }
     }
 
     public class AlarmAdapter extends ArrayAdapter<Alarm> {

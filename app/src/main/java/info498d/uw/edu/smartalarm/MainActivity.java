@@ -1,8 +1,10 @@
 package info498d.uw.edu.smartalarm;
 
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity implements AlarmListFragment.OnAlarmSelectedListener {
+public class MainActivity extends AppCompatActivity implements AlarmListFragment.OnAlarmSelectedListener, NewAlarmFragment.OnNewAlarmListener {
     protected static String TAG = "**SmartAlarm.Main";
     Menu menu;
 
@@ -100,6 +102,16 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     }
 
     @Override
+    public void onNewAlarmSelected() {
+        Log.v(TAG, "on new alarm selected");
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        NewAlarmFragment newAlarmFragment = new NewAlarmFragment();
+        fragmentTransaction.replace(R.id.singlePane, newAlarmFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.v(TAG, "Overriding on activity result in main activity");
         super.onActivityResult(requestCode, resultCode, data);
@@ -114,4 +126,19 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         }
     }
 
+    @Override
+    public void onShowDatePicker(DialogFragment timePickerFragment) {
+        timePickerFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
+    @Override
+    public void onShowTimePicker(DialogFragment datePickerFragment) {
+        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    @Override
+    public void onNewAlarmSet(Alarm alarm) {
+        Log.v(TAG, "Alarm set!");
+        alarmListFragment.adapter.notifyDataSetChanged();
+    }
 }

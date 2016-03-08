@@ -26,13 +26,15 @@ import java.util.Calendar;
 public class NewAlarmFragment extends Fragment {
     private static final String TAG = "**Alarm.NewAlarmFrag";
 
-    private OnSetNewAlarmListener callback;
+    private OnNewAlarmListener callback;
 
     private DatePickerFragment datePickerFragment;
     private TimePickerFragment timePickerFragment;
 
-    public interface OnSetNewAlarmListener {
-        public void onNewAlarmSet();
+    public interface OnNewAlarmListener {
+        public void onShowDatePicker(DialogFragment dialogFragment);
+        public void onShowTimePicker(DialogFragment dialogFragment);
+        public void onNewAlarmSet(Alarm alarm);
     }
 
     public NewAlarmFragment() {
@@ -44,7 +46,7 @@ public class NewAlarmFragment extends Fragment {
         super.onAttach(context);
 
         try {
-            callback = (OnSetNewAlarmListener) context;
+            callback = (OnNewAlarmListener) context;
         }catch(ClassCastException e){
             throw new ClassCastException(context.toString() + " must implement OnSetNewAlarmListener");
         }
@@ -87,16 +89,14 @@ public class NewAlarmFragment extends Fragment {
     }
 
     public void showDatePickerDialog(View v) {
-        FragmentManager fm = getActivity(
         datePickerFragment = new DatePickerFragment();
-        // TODO: figure out how to show dialogFragment from a fragment
-        datePickerFragment.show(getFragmentManager(), "datePicker");
+        ((OnNewAlarmListener) getActivity()).onShowDatePicker(datePickerFragment);
     }
 
     public void showTimePickerDialog(View v) {
         timePickerFragment = new TimePickerFragment();
         // TODO: figure out how to show dialogFragment from a fragment
-        //timePickerFragment.show(getSupportFragmentManager(), "timePicker");
+        ((OnNewAlarmListener) getActivity()).onShowTimePicker(timePickerFragment);
     }
 
     public void setAlarm(View v) {
@@ -111,6 +111,7 @@ public class NewAlarmFragment extends Fragment {
                     datePickerFragment.day, timePickerFragment.hourOfDay,
                     timePickerFragment.minute, true);
             alarm.save();
+            ((OnNewAlarmListener) getActivity()).onNewAlarmSet(alarm);
             // then figure out how to tell the adapter in AlarmListFragment that the db has changed
 
         }
