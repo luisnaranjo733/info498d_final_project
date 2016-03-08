@@ -34,12 +34,12 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         if (findViewById(R.id.rightPane) != null) {
             Log.v(TAG, "Landscape mode");
             AlarmDetailsFragment alarmDetailsFragment = new AlarmDetailsFragment();
-            fragmentTransaction.add(R.id.leftPane, alarmListFragment);
-            fragmentTransaction.add(R.id.rightPane, alarmDetailsFragment);
+            fragmentTransaction.replace(R.id.leftPane, alarmListFragment);
+            fragmentTransaction.replace(R.id.rightPane, alarmDetailsFragment);
 
         } else {
             Log.v(TAG, "Portrait mode");
-            fragmentTransaction.add(R.id.singlePane, alarmListFragment);
+            fragmentTransaction.replace(R.id.singlePane, alarmListFragment);
         }
         fragmentTransaction.commit();
 
