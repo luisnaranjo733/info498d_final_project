@@ -1,11 +1,13 @@
 package info498d.uw.edu.smartalarm;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -83,7 +85,10 @@ public class NewAlarmActivity extends AppCompatActivity {
             alarm.save();
             // then figure out how to tell the adapter in AlarmListFragment that the db has changed
             // http://developer.android.com/training/basics/intents/filters.html
-            //finish();
+            Intent result = new Intent();
+            result.putExtra("test", true);
+            setResult(Activity.RESULT_OK, result);
+            finish();
         }
     }
 

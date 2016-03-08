@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import java.util.TimeZone;
  */
 public class AlarmListFragment extends Fragment {
     private static final String TAG = "**Alarm.AlarmListFrag";
+    public static final int ADD_ALARM_REQUEST = 1;
 
     private OnAlarmSelectedListener callback;
     protected AlarmAdapter adapter;
@@ -105,17 +107,40 @@ public class AlarmListFragment extends Fragment {
                 if (adapter != null) {
                     Log.v(TAG, "Created new alarm");
                     Intent intent = new Intent(getActivity(), NewAlarmActivity.class);
-                    startActivity(intent);
-
-//                    Alarm newAlarm = Alarm.newDefaultInstance();
-//                    adapter.add(newAlarm);
-//                    adapter.notifyDataSetChanged();
+                    startActivityForResult(intent, ADD_ALARM_REQUEST);
                 }
 
             }
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.v(TAG, "2a");
+        // Check which request we're responding to
+        if (requestCode == ADD_ALARM_REQUEST) {
+            Log.v(TAG, "2b");
+            // Make sure the request was successful
+            if (resultCode == getActivity().RESULT_OK) {
+                Log.v(TAG, "2c");
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.v(TAG, "Notifying aapter");
+                        adapter.notifyDataSetChanged();
+                        //Do something after 100ms
+                    }
+                }, 10000);
+
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+
+                // Do something with the contact here (bigger example below)
+            }
+        }
     }
 
     public class AlarmAdapter extends ArrayAdapter<Alarm> {
