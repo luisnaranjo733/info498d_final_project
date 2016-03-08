@@ -141,5 +141,9 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     public void onNewAlarmSet(Alarm alarm) {
         Log.v(TAG, "Alarm set!");
         alarmListFragment.adapter.add(alarm);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.singlePane,alarmListFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }
