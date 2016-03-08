@@ -33,27 +33,27 @@ public class MyLocation {
         if(!gps_enabled && !network_enabled)
             return false;
 
-        try {
+        // try {
             if(gps_enabled)
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListenerGps);
             if(network_enabled)
                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListenerNetwork);
-        } catch (SecurityException e) {
+        /*} catch (SecurityException e) {
             Log.e(TAG, e.toString());
         }
-
+*/
         timer1=new Timer();
         timer1.schedule(new GetLastLocation(), WAIT_TIME);
         return true;
     }
     public void cancelTimer() {
         timer1.cancel();
-        try {
+        // try {
             lm.removeUpdates(locationListenerGps);
             lm.removeUpdates(locationListenerNetwork);
-        } catch (SecurityException e) {
+        /*} catch (SecurityException e) {
             Log.v(TAG, e.toString());
-        }
+        }*/
 
     }
 
@@ -61,12 +61,12 @@ public class MyLocation {
         public void onLocationChanged(Location location) {
             timer1.cancel();
             locationResult.gotLocation(location);
-            try {
+            // try {
                 lm.removeUpdates(this);
                 lm.removeUpdates(locationListenerNetwork);
-            } catch (SecurityException e) {
+            /*} catch (SecurityException e) {
                 Log.e(TAG, e.toString());
-            }
+            }*/
 
         }
         public void onProviderDisabled(String provider) {}
@@ -78,12 +78,12 @@ public class MyLocation {
         public void onLocationChanged(Location location) {
             timer1.cancel();
             locationResult.gotLocation(location);
-            try {
+            // try {
                 lm.removeUpdates(this);
                 lm.removeUpdates(locationListenerGps);
-            } catch(SecurityException e) {
+            /*} catch(SecurityException e) {
                 Log.e(TAG, e.toString());
-            }
+            }*/
 
         }
         public void onProviderDisabled(String provider) {}
@@ -95,17 +95,17 @@ public class MyLocation {
         @Override
         public void run() {
             Location net_loc=null, gps_loc=null;
-            try {
+            // try {
                 lm.removeUpdates(locationListenerGps);
                 lm.removeUpdates(locationListenerNetwork);
                 if(gps_enabled)
                     gps_loc=lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 if(network_enabled)
                     net_loc=lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            } catch (SecurityException e) {
+           /* } catch (SecurityException e) {
                 Log.e(TAG, e.toString());
             }
-
+*/
             //if there are both values use the latest one
             if(gps_loc!=null && net_loc!=null){
                 if(gps_loc.getTime()>net_loc.getTime())

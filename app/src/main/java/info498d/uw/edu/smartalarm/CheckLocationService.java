@@ -27,15 +27,7 @@ public class CheckLocationService extends Service {
         Log.v(TAG, "service is started");
         super.onStartCommand(intent, flags, startId);
 
-        locationResult = new MyLocation.LocationResult() {
-            @Override
-            public void gotLocation(Location location) {
 
-                Log.v(TAG, location.toString());
-            }
-        };
-
-        myLocation = new MyLocation();
         startLocationCheck();
         return Service.START_STICKY;
     }
@@ -65,7 +57,15 @@ public class CheckLocationService extends Service {
         int minute = c.get(Calendar.MINUTE);
         Log.v(TAG, "this is the current time: " + hour + ":" + minute);
         // TODO: figure out when to start checking location
+        locationResult = new MyLocation.LocationResult() {
+            @Override
+            public void gotLocation(Location location) {
+                Log.v(TAG, "got person location");
+                Log.v(TAG, location.toString());
+            }
+        };
 
+        myLocation = new MyLocation();
         myLocation.getLocation(this, locationResult);
 
     }
