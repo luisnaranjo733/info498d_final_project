@@ -3,6 +3,7 @@
     package="info498d.uw.edu.smartalarm">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name="com.orm.SugarApp"
@@ -31,6 +32,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- <service -->
+        <!-- android:name=".AlarmService" -->
+        <!-- android:enabled="true" /> -->
+        <!-- <receiver android:name=".AlarmReceiver" /> -->
+
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity">
@@ -57,9 +64,21 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="info498d.uw.edu.smartalarm.SettingsActivity" />
         </activity>
+<<<<<<< HEAD
 
         <service
             android:name=".CheckLocationService"
+=======
+        <activity android:name=".NewAlarmActivity" />
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
+            android:name=".AlarmService"
+>>>>>>> alarm
             android:enabled="true"
             android:exported="true"></service>
     </application>
