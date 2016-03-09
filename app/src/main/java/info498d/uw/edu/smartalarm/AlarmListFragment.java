@@ -94,6 +94,10 @@ public class AlarmListFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Alarm alarm = (Alarm) parent.getItemAtPosition(position);
+                Intent cancelThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
+                cancelThis.setAction("CANCEL");
+                cancelThis.putExtra("id", alarm.getId());
+                getActivity().startService(cancelThis);
                 alarm.delete();
                 adapter.remove(alarm);
                 adapter.notifyDataSetChanged();
@@ -135,10 +139,23 @@ public class AlarmListFragment extends Fragment {
                 alarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        Log.v(TAG, "Clicked a toggle button" + isChecked);
+                        Log.v(TAG, "Clicked a toggle button " + isChecked);
                         Alarm alarm = getItem(position);
                         alarm.active = isChecked;
                         alarm.save();
+                        if (isChecked) {
+                            Intent cancelThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
+                            cancelThis.setAction("CANCEL");
+                            cancelThis.putExtra("id", alarm.getId());
+                            getActivity().startService(cancelThis);
+                        } else {
+                            Intent saveThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
+                            saveThis.setAction("CREATE");
+                            saveThis.putExtra("id", alarm.getId());
+                            saveThis.putExtra("title", alarm.alarmTitle);
+                            saveThis.putExtra("timestamp", alarm.timestamp);
+                            getActivity().startService(saveThis);
+                        }
                     }
                 });
             } else {

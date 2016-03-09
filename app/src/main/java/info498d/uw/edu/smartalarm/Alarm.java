@@ -54,10 +54,12 @@ public class Alarm extends SugarRecord {
 
     // sets intent for alarm notification at alarm time
     private void setAlarmIntent(Calendar calendar) {
-        Intent myIntent = new Intent(MainActivity.getMainContext(), AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.getMainContext(), 0, myIntent, 0);
-        AlarmManager alarmManager = (AlarmManager) MainActivity.getMainContext().getSystemService(MainActivity.getMainContext().ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+        Intent myIntent = new Intent(MainActivity.getMainContext(), AlarmService.class);
+        myIntent.setAction("CREATE");
+        myIntent.putExtra("id", this.getId());
+        myIntent.putExtra("title", this.alarmTitle);
+        myIntent.putExtra("timestamp", timestamp);
+        MainActivity.getMainContext().startService(myIntent);
         Log.v(TAG, "alarm intent sent");
     }
 
