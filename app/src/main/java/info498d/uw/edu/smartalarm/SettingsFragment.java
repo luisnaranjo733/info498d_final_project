@@ -50,8 +50,8 @@ public class SettingsFragment extends PreferenceFragment implements ServiceConne
         bedTime.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Intent intent = new Intent(getActivity(), CheckLocationService.class);
-                getActivity().startService(intent);
+                /*Intent intent = new Intent(getActivity(), CheckLocationService.class);
+                getActivity().startService(intent);*/
                 SharedPreferences sharedPref = getActivity().getSharedPreferences("USER_SETTINGS", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
 
