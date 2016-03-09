@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     Menu menu;
 
     AlarmListFragment alarmListFragment;
+    NewAlarmFragment newAlarmFragment;
     public static Context context;
 
     @Override
@@ -126,10 +127,14 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     public void onNewAlarmButtonPressed() {
         Log.v(TAG, "on new alarm selected");
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        NewAlarmFragment newAlarmFragment = new NewAlarmFragment();
+        newAlarmFragment = new NewAlarmFragment();
         fragmentTransaction.replace(R.id.singlePane, newAlarmFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    public void onDatePicked(NewAlarmFragment.DatePickerFragment datePickerFragment) {
+        newAlarmFragment.datePickerBtn.setText(datePickerFragment.toString());
     }
 
     @Override

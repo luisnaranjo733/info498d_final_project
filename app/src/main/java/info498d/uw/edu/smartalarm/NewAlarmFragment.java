@@ -5,11 +5,10 @@ import android.app.DatePickerDialog;
 
 import android.app.Dialog;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -39,6 +38,7 @@ public class NewAlarmFragment extends Fragment {
     public interface OnNewAlarmListener {
         public void onShowDatePicker(DialogFragment dialogFragment);
         public void onShowTimePicker(DialogFragment dialogFragment);
+        public void onDatePicked(DatePickerFragment datePickerFragment);
         public void onNewAlarmSet(Alarm alarm);
     }
 
@@ -74,7 +74,7 @@ public class NewAlarmFragment extends Fragment {
             public void onClick(View v) {
                 datePickerFragment = new DatePickerFragment();
                 ((OnNewAlarmListener) getActivity()).onShowDatePicker(datePickerFragment);
-                datePickerBtn.setText(datePickerFragment.toString());
+                //datePickerBtn.setText(datePickerFragment.toString());
             }
         });
 
@@ -118,6 +118,8 @@ public class NewAlarmFragment extends Fragment {
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
+        private Button datePickerBtn;
+
 
         protected int year;
         protected int month;
@@ -125,9 +127,8 @@ public class NewAlarmFragment extends Fragment {
 
         @Override
         public String toString() {
-            return "" + month + "/" + day + "/" + year;
+            return "" + (month + 1) + "/" + day + "/" + year;
         }
-
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -147,8 +148,7 @@ public class NewAlarmFragment extends Fragment {
             this.year = year;
             this.month = month;
             this.day = day;
-
-            //((OnDatePickedListener) getActivity()).onDatePicked();
+            ((OnNewAlarmListener) getActivity()).onDatePicked(this);
         }
 
 
