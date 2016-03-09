@@ -16,7 +16,9 @@ public class MyLocation {
     boolean network_enabled=false;
     private static final String TAG = "MY_LOCATION";
     // May change
-    private static final int WAIT_TIME = 1800000;
+    // private static final int WAIT_TIME = 1800000;
+    private static final int WAIT_TIME = 10000;
+
 
     public boolean getLocation(Context context, LocationResult result)
     {
