@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     }
 
     @Override
-    public void onNewAlarmSelected() {
+    public void onNewAlarmButtonPressed() {
         Log.v(TAG, "on new alarm selected");
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         NewAlarmFragment newAlarmFragment = new NewAlarmFragment();
@@ -151,6 +152,10 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     @Override
     public void onNewAlarmSet(Alarm alarm) {
         Log.v(TAG, "Alarm set!");
-        alarmListFragment.adapter.notifyDataSetChanged();
+        alarmListFragment.adapter.add(alarm);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.singlePane,alarmListFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

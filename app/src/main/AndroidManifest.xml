@@ -92,6 +92,7 @@
             <!--android:enabled="true"-->
             <!--android:exported="true"></service>-->
 
+<<<<<<< HEAD
         <receiver android:name=".ChargeReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
@@ -99,6 +100,9 @@
             </intent-filter>
         </receiver>
         
+=======
+
+>>>>>>> 1d34b028325801036c49a524df2632bda27259a4
     </application>
 
 </manifest>

@@ -67,13 +67,18 @@ public class Alarm extends SugarRecord {
 
     // get just the time "7:30 AM"
     public String getTimeRepresentation() {
+        int hour = getCal().get(Calendar.HOUR);
+        if (hour == 0) {
+            hour = 12;
+        }
+
         String minutes = "";
         if (getCal().get(Calendar.MINUTE) < 10) {
             minutes += "0";
         }
         minutes += getCal().get(Calendar.MINUTE);
 
-        String representation = "" + getCal().get(Calendar.HOUR) + ":" + minutes + " ";
+        String representation = "" + hour + ":" + minutes + " ";
         if (getCal().get(Calendar.AM_PM) == 0) {
             representation += "AM";
         } else {
