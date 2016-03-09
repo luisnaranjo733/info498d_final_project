@@ -108,15 +108,12 @@ public class CheckLocationService extends Service {
             public void gotLocation(Location location) {
                 SharedPreferences sp = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
                 Boolean charging = sp.getBoolean("charging", false);
+                Log.v(TAG, "current charging: " + charging);
                 if (charging) {
                     Log.v(TAG, "got person location");
                     Log.v(TAG, location.toString());
                     Log.v(TAG, sleepLocations);
                 }
-
-
-
-
             }
         };
         final Context context = this;
