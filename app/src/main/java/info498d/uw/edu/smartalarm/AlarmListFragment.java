@@ -66,10 +66,10 @@ public class AlarmListFragment extends Fragment {
 
 
         List<Alarm> alarms = Alarm.listAll(Alarm.class);
-        for (int i=0; i < alarms.size(); i++) {
-            Alarm alarm = alarms.get(i);
-            Log.v(TAG, "" + i + ": " + alarm.toString());
-        }
+//        for (int i=0; i < alarms.size(); i++) {
+//            Alarm alarm = alarms.get(i);
+//            Log.v(TAG, "" + i + ": " + alarm.toString());
+//        }
 
         if (adapter == null) {
             adapter = new AlarmAdapter(getActivity(), alarms);
@@ -95,7 +95,7 @@ public class AlarmListFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Alarm alarm = (Alarm) parent.getItemAtPosition(position);
                 Intent cancelThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
-                cancelThis.setAction("CANCEL");
+                cancelThis.setAction(AlarmService.CANCEL);
                 cancelThis.putExtra("id", alarm.getId());
                 getActivity().startService(cancelThis);
                 alarm.delete();
@@ -144,17 +144,19 @@ public class AlarmListFragment extends Fragment {
                         alarm.active = isChecked;
                         alarm.save();
                         if (isChecked) {
-                            Intent cancelThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
-                            cancelThis.setAction("CANCEL");
-                            cancelThis.putExtra("id", alarm.getId());
-                            getActivity().startService(cancelThis);
-                        } else {
                             Intent saveThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
                             saveThis.setAction("CREATE");
                             saveThis.putExtra("id", alarm.getId());
                             saveThis.putExtra("title", alarm.alarmTitle);
                             saveThis.putExtra("timestamp", alarm.timestamp);
                             getActivity().startService(saveThis);
+                            Log.v(TAG, "Toggle create alarm");
+                        } else {
+                            Intent cancelThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
+                            cancelThis.setAction("CANCEL");
+                            cancelThis.putExtra("id", alarm.getId());
+                            getActivity().startService(cancelThis);
+                            Log.v(TAG, "Toggle cancel alarm");
                         }
                     }
                 });

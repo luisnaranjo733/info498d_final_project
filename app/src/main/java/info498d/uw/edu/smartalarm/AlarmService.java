@@ -7,15 +7,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import java.util.Calendar;
 
 /**
  * Created by kai on 3/8/16.
  */
 public class AlarmService extends IntentService {
+    public static final String TAG = "**AlarmService";
     private NotificationManager alarmNotificationManager;
 
     public static final String CREATE = "CREATE";
@@ -62,6 +61,7 @@ public class AlarmService extends IntentService {
 
         if (CREATE.equals(action)) {
                 am.set(AlarmManager.RTC_WAKEUP, time, pi);
+                Log.v(TAG, "ALARM SET!!!");
 
         } else if (CANCEL.equals(action)) {
             am.cancel(pi);

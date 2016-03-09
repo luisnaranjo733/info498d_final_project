@@ -49,7 +49,10 @@ public class Alarm extends SugarRecord {
         this.timestamp = cal.getTimeInMillis();
         this.active = active;
 
-        setAlarmIntent(cal);
+        // the alarm is going off multiple times at the same time
+        // commented this out because we are already setting this intent in the toggle button
+        // listener (gets called on initialization too)
+        //setAlarmIntent(cal);
     }
 
     // sets intent for alarm notification at alarm time

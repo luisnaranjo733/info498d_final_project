@@ -144,10 +144,7 @@ public class NewAlarmFragment extends Fragment {
             this.day = day;
         }
 
-        public static NewAlarmActivity.DatePickerFragment newInstance() {
-            NewAlarmActivity.DatePickerFragment datePicker = new NewAlarmActivity.DatePickerFragment();
-            return datePicker;
-        }
+
     }
 
     public static class TimePickerFragment extends DialogFragment
