@@ -31,6 +31,11 @@ public class NewAlarmFragment extends Fragment {
     private DatePickerFragment datePickerFragment;
     private TimePickerFragment timePickerFragment;
 
+    Button datePickerBtn;
+    Button timePickerBtn;
+
+
+
     public interface OnNewAlarmListener {
         public void onShowDatePicker(DialogFragment dialogFragment);
         public void onShowTimePicker(DialogFragment dialogFragment);
@@ -60,21 +65,24 @@ public class NewAlarmFragment extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_new_alarm, container, false);
 
-        Button datePickerBtn = (Button) rootView.findViewById(R.id.datePicker);
-        Button timePickerBtn = (Button) rootView.findViewById(R.id.timePicker);
+        datePickerBtn= (Button) rootView.findViewById(R.id.datePicker);
+        timePickerBtn = (Button) rootView.findViewById(R.id.timePicker);
         Button setAlarmBtn = (Button) rootView.findViewById(R.id.setNewAlarm);
 
         datePickerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePickerDialog(v);
+                datePickerFragment = new DatePickerFragment();
+                ((OnNewAlarmListener) getActivity()).onShowDatePicker(datePickerFragment);
+                datePickerBtn.setText(datePickerFragment.toString());
             }
         });
 
         timePickerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showTimePickerDialog(v);
+                timePickerFragment = new TimePickerFragment();
+                ((OnNewAlarmListener) getActivity()).onShowTimePicker(timePickerFragment);
             }
         });
 
@@ -88,16 +96,6 @@ public class NewAlarmFragment extends Fragment {
         return rootView;
     }
 
-    public void showDatePickerDialog(View v) {
-        datePickerFragment = new DatePickerFragment();
-        ((OnNewAlarmListener) getActivity()).onShowDatePicker(datePickerFragment);
-    }
-
-    public void showTimePickerDialog(View v) {
-        timePickerFragment = new TimePickerFragment();
-        // TODO: figure out how to show dialogFragment from a fragment
-        ((OnNewAlarmListener) getActivity()).onShowTimePicker(timePickerFragment);
-    }
 
     public void setAlarm(View v) {
         // if date and time have both been set, parse, create, and save new alarm
@@ -120,9 +118,16 @@ public class NewAlarmFragment extends Fragment {
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
+
         protected int year;
         protected int month;
         protected int day;
+
+        @Override
+        public String toString() {
+            return "" + month + "/" + day + "/" + year;
+        }
+
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -142,6 +147,8 @@ public class NewAlarmFragment extends Fragment {
             this.year = year;
             this.month = month;
             this.day = day;
+
+            //((OnDatePickedListener) getActivity()).onDatePicked();
         }
 
 
