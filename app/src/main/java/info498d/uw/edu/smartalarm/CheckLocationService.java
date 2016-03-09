@@ -99,6 +99,7 @@ public class CheckLocationService extends Service {
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
+        int day = c.get(Calendar.DAY_OF_MONTH);
         Log.v(TAG, "this is the current time: " + hour + ":" + minute);
         // TODO: figure out when to start checking location
         locationResult = new MyLocation.LocationResult() {
@@ -109,10 +110,11 @@ public class CheckLocationService extends Service {
                 SharedPreferences sp = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
                 Boolean charging = sp.getBoolean("charging", false);
                 Log.v(TAG, "current charging: " + charging);
-                if (charging) {
-                    Log.v(TAG, "got person location");
-                    Log.v(TAG, location.toString());
-                    Log.v(TAG, sleepLocations);
+                if (charging && currentLocationCheck(location.getLatitude(), location.getLongitude())) {
+                    Log.v(TAG, "this person is sleeping");
+                    myLocation.cancelTimer();
+                } else {
+                    Log.v(TAG, "check again later");
                 }
             }
         };
@@ -129,5 +131,24 @@ public class CheckLocationService extends Service {
         }, 3000);
 
 
+    }
+
+    private boolean currentLocationCheck(double currLat, double currLong) {
+        SharedPreferences sleepLocationPreferences = getSharedPreferences("SLEEP_LOCATIONS", Context.MODE_PRIVATE);
+        String sleepLocations = sleepLocationPreferences.getString("sleepLocations", "");
+        String[] sleepLocationsArray = sleepLocations.split(",");
+        for (int i = 0; i < sleepLocationsArray.length; i++) {
+
+            // Log.v(TAG, sleepLocationsArray[i]);
+            String[] savedLocationArray = sleepLocationsArray[i].split(":");
+            double savedLat = Double.parseDouble(savedLocationArray[0]);
+            double savedLong = Double.parseDouble(savedLocationArray[1]);
+            if ((currLat <= (savedLat + .001) && currLat >= (savedLat - .001)) &&
+                    (currLong <= (savedLong + .001) && currLong >= (savedLong - .001))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
