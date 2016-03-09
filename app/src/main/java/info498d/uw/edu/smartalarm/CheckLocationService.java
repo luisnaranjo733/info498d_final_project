@@ -33,7 +33,18 @@ public class CheckLocationService extends Service {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "service!!", Toast.LENGTH_SHORT).show();
+
+            SharedPreferences sp = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+
+            if(intent.getAction().equals(Intent.ACTION_POWER_CONNECTED)) {
+                editor.putBoolean("charging", true);
+            } else if (intent.getAction().equals(Intent.ACTION_POWER_DISCONNECTED)) {
+                editor.putBoolean("charging", false);
+            }
+
+            editor.commit();
+
         }
 
         // constructor
@@ -47,6 +58,7 @@ public class CheckLocationService extends Service {
         // get an instance of the receiver in your service
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         mReceiver = new MyReceiver();
         registerReceiver(mReceiver, filter);
     }
