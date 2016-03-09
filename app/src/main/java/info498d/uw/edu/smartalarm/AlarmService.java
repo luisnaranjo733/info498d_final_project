@@ -58,36 +58,13 @@ public class AlarmService extends IntentService {
 
         i = new Intent(this, AlarmReceiver.class);
         i.putExtra("title", title);
-
         pi = PendingIntent.getBroadcast(this, id.intValue() , i, PendingIntent.FLAG_UPDATE_CURRENT);
-//				pi = PendingIntent.getService(context, requestCode, intent, flags);
 
         if (CREATE.equals(action)) {
                 am.set(AlarmManager.RTC_WAKEUP, time, pi);
-            //am.setRepeating(AlarmManager.RTC_WAKEUP, triggerAtTime, interval, operation);
 
         } else if (CANCEL.equals(action)) {
             am.cancel(pi);
         }
     }
-
-//    private void sendNotification(String s) {
-//
-//        Log.v("AlarmService", "Preparing to send notification...: " + s);
-//        alarmNotificationManager = (NotificationManager) this
-//                .getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-//                new Intent(this, MainActivity.class), 0);
-//
-//        NotificationCompat.Builder alarmNotificationBuilder = new NotificationCompat.Builder(
-//                this).setContentTitle("Alarm").setSmallIcon(android.R.drawable.ic_popup_reminder)
-//                .setStyle(new NotificationCompat.BigTextStyle().bigText(s))
-//                .setContentText(s);
-//
-//
-//        alarmNotificationBuilder.setContentIntent(contentIntent);
-//        alarmNotificationManager.notify(1, alarmNotificationBuilder.build());
-//        Log.d("AlarmService", "Notification sent.");
-//    }
 }
