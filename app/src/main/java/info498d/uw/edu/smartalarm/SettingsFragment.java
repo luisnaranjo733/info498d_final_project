@@ -56,6 +56,7 @@ public class SettingsFragment extends PreferenceFragment implements ServiceConne
                 SharedPreferences.Editor editor = sharedPref.edit();
 
                 editor.putString("bedTime", (String) newValue);
+                // TODO: do some math here or to convert to data time object and add time
                 editor.commit();
                 return true;
             }
