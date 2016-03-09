@@ -26,11 +26,13 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     Menu menu;
 
     AlarmListFragment alarmListFragment;
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("last_time",hour+":"+min);
         editor.commit();
+        context = getApplicationContext();
+
 
         if (alarmListFragment == null) {
             alarmListFragment = new AlarmListFragment();
@@ -58,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         }
         fragmentTransaction.commit();
 
+    }
+
+    public static Context getMainContext() {
+        return context;
     }
 
 
@@ -157,5 +165,17 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         fragmentTransaction.replace(R.id.singlePane,alarmListFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+        //alarmListFragment.adapter.notifyDataSetChanged();
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                alarmListFragment.adapter.notifyDataSetChanged();
+            }
+        }, 1000);
+
+
+        //alarmListFragment.adapter.notifyDataSetChanged();
     }
 }
