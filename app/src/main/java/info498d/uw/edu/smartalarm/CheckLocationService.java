@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.CalendarContract;
 import android.util.Log;
+
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -70,9 +73,18 @@ public class CheckLocationService extends Service {
                 Log.v(TAG, sleepLocations);
             }
         };
-
+        final Context context = this;
         myLocation = new MyLocation();
-        myLocation.getLocation(this, locationResult);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 3 seconds
+                Log.v(TAG, "been after 3 seconds");
+                myLocation.getLocation(context, locationResult);
+            }
+        }, 3000);
+
 
     }
 }
