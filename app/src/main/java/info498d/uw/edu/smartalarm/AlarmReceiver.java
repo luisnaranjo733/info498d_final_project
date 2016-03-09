@@ -12,44 +12,61 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.WakefulBroadcastReceiver;
+import android.util.Log;
 
 /**
  * Created by kai on 3/8/16.
  */
 public class AlarmReceiver extends WakefulBroadcastReceiver {
+    public static final String TAG = "**AlarmReceiver";
 
     private NotificationManager alarmNotificationManager;
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        String title = intent.getStringExtra("title");
+        // TODO: Our receiver plays all alarms it receives. We should have it check to make sure that
+        // the alarm it receives is still relevant. We'll need to pass in an extra to the received
+        // intent from AlarmService that includes the timestamp, so we can use it to compare to the
+        // current timestamp and see if we should actually ring the alarm.
+        // this will solve the issue where the alarm will ring when you first open the app
+        String title = intent.getStringExtra(AlarmService.EXTRA_TITLE);
+        long alarmTime = intent.getLongExtra(AlarmService.EXTRA_TIME, 0);
+        long currentTime= System.currentTimeMillis();
+        // time between alarm time and current time in seconds
+        long delta = Math.abs(alarmTime - currentTime) / 1000;
 
-        alarmNotificationManager = (NotificationManager)
-                context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (delta < 60) {
 
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-                new Intent(context, MainActivity.class), 0);
+            alarmNotificationManager = (NotificationManager)
+                    context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        if (alarmUri == null) {
-            alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+                    new Intent(context, MainActivity.class), 0);
+
+            Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+            if (alarmUri == null) {
+                alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            }
+
+            long[] pattern = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
+
+            NotificationCompat.Builder alarmNotificationBuilder = new NotificationCompat.Builder(
+                    context).setContentTitle(title).setSmallIcon(android.R.drawable.ic_popup_reminder)
+                    .setContentText(title).setPriority(NotificationCompat.PRIORITY_MAX);
+
+
+            alarmNotificationBuilder.setContentIntent(contentIntent);
+
+            Notification notification = alarmNotificationBuilder.build();
+
+            notification.sound = alarmUri;
+            notification.vibrate = pattern;
+            notification.flags = Notification.FLAG_INSISTENT;
+            Log.v(TAG, "Alarm ringing!");
+            alarmNotificationManager.notify(1, notification);
+        } else {
+            Log.v(TAG, "Did not ring alarm because delta > 60 seconds");
         }
-
-        long[] pattern = {1000,1000,1000,1000,1000,1000,1000,1000,1000,1000};
-
-        NotificationCompat.Builder alarmNotificationBuilder = new NotificationCompat.Builder(
-                context).setContentTitle(title).setSmallIcon(android.R.drawable.ic_popup_reminder)
-                .setContentText(title).setPriority(NotificationCompat.PRIORITY_MAX);
-
-
-        alarmNotificationBuilder.setContentIntent(contentIntent);
-
-        Notification notification = alarmNotificationBuilder.build();
-
-        notification.sound = alarmUri;
-        notification.vibrate = pattern;
-        notification.flags = Notification.FLAG_INSISTENT;
-        alarmNotificationManager.notify(1, notification);
     }
 }

@@ -95,7 +95,7 @@ public class AlarmListFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Alarm alarm = (Alarm) parent.getItemAtPosition(position);
                 Intent cancelThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
-                cancelThis.setAction(AlarmService.CANCEL);
+                cancelThis.setAction(AlarmService.ACTION_CANCEL);
                 cancelThis.putExtra("id", alarm.getId());
                 getActivity().startService(cancelThis);
                 alarm.delete();
@@ -145,7 +145,7 @@ public class AlarmListFragment extends Fragment {
                         alarm.save();
                         if (isChecked) {
                             Intent saveThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
-                            saveThis.setAction("CREATE");
+                            saveThis.setAction(AlarmService.ACTION_CREATE);
                             saveThis.putExtra("id", alarm.getId());
                             saveThis.putExtra("title", alarm.alarmTitle);
                             saveThis.putExtra("timestamp", alarm.timestamp);
@@ -153,7 +153,7 @@ public class AlarmListFragment extends Fragment {
                             Log.v(TAG, "Toggle create alarm");
                         } else {
                             Intent cancelThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
-                            cancelThis.setAction("CANCEL");
+                            cancelThis.setAction(AlarmService.ACTION_CANCEL);
                             cancelThis.putExtra("id", alarm.getId());
                             getActivity().startService(cancelThis);
                             Log.v(TAG, "Toggle cancel alarm");

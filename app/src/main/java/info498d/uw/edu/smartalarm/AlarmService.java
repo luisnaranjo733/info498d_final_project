@@ -17,8 +17,11 @@ public class AlarmService extends IntentService {
     public static final String TAG = "**AlarmService";
     private NotificationManager alarmNotificationManager;
 
-    public static final String CREATE = "CREATE";
-    public static final String CANCEL = "CANCEL";
+    public static final String ACTION_CREATE = "CREATE";
+    public static final String ACTION_CANCEL = "CANCEL";
+    public static final String EXTRA_TITLE = "ALARM_TITLE";
+    public static final String EXTRA_TIME = "ALARM_TIME";
+
     private IntentFilter matcher;
     private Long id;
     String title;
@@ -26,8 +29,8 @@ public class AlarmService extends IntentService {
     public AlarmService() {
         super("AlarmService");
         matcher = new IntentFilter();
-        matcher.addAction(CREATE);
-        matcher.addAction(CANCEL);
+        matcher.addAction(ACTION_CREATE);
+        matcher.addAction(ACTION_CANCEL);
     }
 
     @Override
@@ -39,12 +42,12 @@ public class AlarmService extends IntentService {
 
 
         if (matcher.matchAction(action)) {
-            if (CREATE.equals(action)) {
-                execute(CREATE, timeStamp, id);
+            if (ACTION_CREATE.equals(action)) {
+                execute(ACTION_CREATE, timeStamp, id);
             }
 
-            if (CANCEL.equals(action)) {
-                execute(CANCEL, 0, id);
+            if (ACTION_CANCEL.equals(action)) {
+                execute(ACTION_CANCEL, 0, id);
             }
         }
     }
@@ -56,14 +59,15 @@ public class AlarmService extends IntentService {
         AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         i = new Intent(this, AlarmReceiver.class);
-        i.putExtra("title", title);
+        i.putExtra(EXTRA_TITLE, title);
+        i.putExtra(EXTRA_TIME, time);
         pi = PendingIntent.getBroadcast(this, id.intValue() , i, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (CREATE.equals(action)) {
+        if (ACTION_CREATE.equals(action)) {
                 am.set(AlarmManager.RTC_WAKEUP, time, pi);
                 Log.v(TAG, "ALARM SET!!!");
 
-        } else if (CANCEL.equals(action)) {
+        } else if (ACTION_CANCEL.equals(action)) {
             am.cancel(pi);
         }
     }
