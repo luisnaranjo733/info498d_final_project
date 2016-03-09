@@ -1,5 +1,8 @@
 package info498d.uw.edu.smartalarm;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.provider.CalendarContract;
 import android.util.Log;
 
@@ -45,6 +48,17 @@ public class Alarm extends SugarRecord {
         cal.set(year, month, day, hour, minute);
         this.timestamp = cal.getTimeInMillis();
         this.active = active;
+
+        setAlarmIntent(cal);
+    }
+
+    // sets intent for alarm notification at alarm time
+    private void setAlarmIntent(Calendar calendar) {
+        Intent myIntent = new Intent(MainActivity.getMainContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.getMainContext(), 0, myIntent, 0);
+        AlarmManager alarmManager = (AlarmManager) MainActivity.getMainContext().getSystemService(MainActivity.getMainContext().ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+        Log.v(TAG, "alarm intent sent");
     }
 
     private Calendar getCal() {

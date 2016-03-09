@@ -36,10 +36,10 @@
             </intent-filter>
         </activity>
 
-        <!-- <service -->
-        <!-- android:name=".AlarmService" -->
-        <!-- android:enabled="true" /> -->
-        <!-- <receiver android:name=".AlarmReceiver" /> -->
+         <service
+         android:name=".AlarmService"
+         android:enabled="true" />
+         <receiver android:name=".AlarmReceiver" />
 
         <activity
             android:name=".SettingsActivity"
@@ -91,10 +91,6 @@
             <!--android:name=".AlarmService"-->
             <!--android:enabled="true"-->
             <!--android:exported="true"></service>-->
-
-        <receiver android:name="">
-
-        </receiver>
         
     </application>
 

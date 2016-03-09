@@ -2,6 +2,7 @@ package info498d.uw.edu.smartalarm;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Handler;
@@ -22,11 +23,14 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     Menu menu;
 
     AlarmListFragment alarmListFragment;
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = getApplicationContext();
 
         if (alarmListFragment == null) {
             alarmListFragment = new AlarmListFragment();
@@ -46,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         }
         fragmentTransaction.commit();
 
+    }
+
+    public static Context getMainContext() {
+        return context;
     }
 
 
@@ -149,6 +157,8 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
                 alarmListFragment.adapter.notifyDataSetChanged();
             }
         }, 1000);
+
+
         //alarmListFragment.adapter.notifyDataSetChanged();
     }
 }
