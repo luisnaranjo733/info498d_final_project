@@ -1,8 +1,10 @@
 package info498d.uw.edu.smartalarm;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Binder;
@@ -10,6 +12,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.provider.CalendarContract;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -22,6 +25,32 @@ public class CheckLocationService extends Service {
     private static final String TAG = "CHECK_LOCATION_SERVICE";
     private MyLocation.LocationResult locationResult;
     private MyLocation myLocation;
+
+    BroadcastReceiver mReceiver;
+    // use this as an inner class like here or as a top-level class
+    public class MyReceiver extends BroadcastReceiver {
+
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context, "service!!", Toast.LENGTH_SHORT).show();
+        }
+
+        // constructor
+        public MyReceiver(){
+
+        }
+    }
+
+    @Override
+    public void onCreate() {
+        // get an instance of the receiver in your service
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        mReceiver = new MyReceiver();
+        registerReceiver(mReceiver, filter);
+    }
+
     public CheckLocationService() {
     }
 

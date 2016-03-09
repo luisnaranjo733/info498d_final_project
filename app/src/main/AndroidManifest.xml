@@ -72,7 +72,11 @@
         <service
             android:name=".CheckLocationService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+            </intent-filter>
+        </service>
 
         <activity android:name=".NewAlarmActivity"
             android:parentActivityName=".MainActivity"
