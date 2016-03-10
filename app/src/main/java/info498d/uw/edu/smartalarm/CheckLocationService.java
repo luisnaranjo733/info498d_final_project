@@ -155,9 +155,9 @@ public class CheckLocationService extends Service{
                     long tms = cal.getTimeInMillis();
                     long diff = Math.abs(tms-cms);
 
-                    Log.v(TAG,"DIFF: "+ diff);
+                    Log.v(TAG, "DIFF: " + diff);
 
-                    checkAgainLater(context, diff);
+
                     // TODO: replace these values with calculated values
 
                     int targetSleepTime = Integer.parseInt(sharedPreferences.getString("targetSleepTime",""));
@@ -189,6 +189,7 @@ public class CheckLocationService extends Service{
                     LocalBroadcastManager.getInstance(CheckLocationService.this)
                             .sendBroadcast(intent);
                     Log.v(TAG, "Just send broadcast to update listview for alarm " + alarm.getId());
+                    checkAgainLater(context, 5000);
                 } else {
                     Log.v(TAG, "check again later");
                     // TODO: if current time is equal to target hour of sleep + bedtime stop
