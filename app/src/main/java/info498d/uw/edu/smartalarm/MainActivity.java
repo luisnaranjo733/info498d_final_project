@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         @Override
         public void onReceive(Context context, Intent intent) {
             // Extract data included in the Intent
-            int alarmID = intent.getIntExtra("id", 0);
+            long alarmID = intent.getLongExtra("id", 0);
             Log.v(TAG, "Got id: " + alarmID);
             Alarm alarm = Alarm.findById(Alarm.class, alarmID);
             alarmListFragment.adapter.add(alarm);

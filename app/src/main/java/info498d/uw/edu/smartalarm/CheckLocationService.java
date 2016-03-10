@@ -26,7 +26,7 @@ import java.util.TimerTask;
 
 public class CheckLocationService extends Service{
 
-    private static final String TAG = "CHECK_LOCATION_SERVICE";
+    private static final String TAG = "**CHECK_LOCATION_SERVICE";
     private MyLocation.LocationResult locationResult;
     private MyLocation myLocation;
     final Context context = this;
