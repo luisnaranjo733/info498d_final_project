@@ -120,13 +120,13 @@ public class CheckLocationService extends Service {
                 Log.v(TAG, "current charging: " + charging);
                 if (charging && currentLocationCheck(location.getLatitude(), location.getLongitude())) {
                     Log.v(TAG, "this person is sleeping");
-
+                    checkAgainLater(context, 5000);
                 } else {
                     Log.v(TAG, "check again later");
                     // TODO: if current time is equal to target hour of sleep + bedtime stop
 
 
-                    checkAgainLater(context);
+                    checkAgainLater(context, 3000);
 
                 }
             }
@@ -145,7 +145,7 @@ public class CheckLocationService extends Service {
         // TODO: figure out how long delay should be
     }
 
-    private void checkAgainLater(final Context context) {
+    private void checkAgainLater(final Context context, final int delayTime) {
         /*Looper.prepare();
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -160,10 +160,10 @@ public class CheckLocationService extends Service {
             @Override
             public void run() {
                 //Do something after 3 seconds
-                Log.v(TAG, "been after 3 seconds");
+                Log.v(TAG, "Delay time was " + delayTime + "ms");
                 myLocation.getLocation(context, locationResult);
             }
-        }, 3000);
+        }, delayTime);
 
     }
 
