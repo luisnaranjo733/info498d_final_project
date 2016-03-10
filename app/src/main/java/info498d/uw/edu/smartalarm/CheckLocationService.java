@@ -113,13 +113,13 @@ public class CheckLocationService extends Service{
         // TODO: figure out when to start checking location
 
         locationResult = new MyLocation.LocationResult() {
-            SharedPreferences sleepLocationPreferences = getSharedPreferences("SLEEP_LOCATIONS", Context.MODE_PRIVATE);
-            String sleepLocations = sleepLocationPreferences.getString("sleepLocations", "");
+            /*SharedPreferences sleepLocationPreferences = getSharedPreferences("SLEEP_LOCATIONS", Context.MODE_PRIVATE);
+            String sleepLocations = sleepLocationPreferences.getString("sleepLocations", "47.655301:-122.312798");*/
             @Override
             public void gotLocation(Location location) {
                 SharedPreferences sp = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
                 Boolean charging = sp.getBoolean("charging", false);
-
+                Log.v(TAG, location.toString());
                 Log.v(TAG, "current charging: " + charging);
                 if (charging && currentLocationCheck(location.getLatitude(), location.getLongitude())) {
                     Log.v(TAG, "this person is sleeping");
@@ -160,7 +160,7 @@ public class CheckLocationService extends Service{
 
                     // TODO: replace these values with calculated values
 
-                    int targetSleepTime = Integer.parseInt(sharedPreferences.getString("targetSleepTime",""));
+                    int targetSleepTime = Integer.parseInt(sharedPreferences.getString("targetSleepTime","8"));
 
                     c.add(Calendar.HOUR_OF_DAY,targetSleepTime);
 
@@ -236,20 +236,16 @@ public class CheckLocationService extends Service{
 
     }
 
-
-
-    class LocationGetter extends TimerTask {
-
-        @Override
-        public void run() {
-            myLocation.getLocation(context, locationResult);
-        }
-    }
-
     private boolean currentLocationCheck(double currLat, double currLong) {
         SharedPreferences sleepLocationPreferences = getSharedPreferences("SLEEP_LOCATIONS", Context.MODE_PRIVATE);
         String sleepLocations = sleepLocationPreferences.getString("sleepLocations", "");
-        String[] sleepLocationsArray = sleepLocations.split(",");
+        Log.v(TAG, sleepLocations);
+        String[] sleepLocationsArray = {"47.654755:-122.308232"};
+        if (sleepLocations != "") {
+            sleepLocationsArray = sleepLocations.split(",");
+        }
+
+        Log.v(TAG, sleepLocationsArray[0]);
         for (int i = 0; i < sleepLocationsArray.length; i++) {
 
             // Log.v(TAG, sleepLocationsArray[i]);
