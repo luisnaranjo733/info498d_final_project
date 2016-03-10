@@ -90,6 +90,22 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
                 return true;
             }
         });
+        MenuItem helpItem = menu.findItem(R.id.open_help_option);
+        helpItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                HelpFragment helpFragment = new HelpFragment();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                if (findViewById(R.id.rightPane) != null) {
+                    fragmentTransaction.replace(R.id.rightPane, helpFragment);
+                } else {
+                    fragmentTransaction.replace(R.id.singlePane, helpFragment);
+                }
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                return true;
+            }
+        });
         return true;
     }
 
@@ -181,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         if (findViewById(R.id.rightPane) != null) {
             AlarmDetailsFragment alarmDetailsFragment = new AlarmDetailsFragment();
-            
+
             Bundle bundle = new Bundle();
             bundle.putString("title", alarm.alarmTitle);
             bundle.putString("day", alarm.getDate());

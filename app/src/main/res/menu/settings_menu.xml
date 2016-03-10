@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/open_help_option"
+        android:title="Help"
+        android:icon="@android:drawable/ic_menu_help"
+        app:showAsAction="ifRoom"
+        />
+    <item
         android:id="@+id/open_settings_option"
         android:title="Settings"
         android:icon="@android:drawable/ic_menu_preferences"

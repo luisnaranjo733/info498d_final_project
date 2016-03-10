@@ -8,9 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="NewAlarmButton" parent="@style/AppTheme">
-
-    </style>
     <style name="NewAlarmField" parent="@style/AppTheme">
         <item name="android:textSize">30dp</item>
     </style>
