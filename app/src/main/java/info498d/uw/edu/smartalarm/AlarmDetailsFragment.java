@@ -49,14 +49,18 @@ public class AlarmDetailsFragment extends Fragment {
             final String date = bundle.getString("day");
             boolean active = bundle.getBoolean("active");
 
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    alarmTitle.setText(title);
-                    alarmTime.setText(time);
-                    alarmDate.setText(date);
-                }
-            });
+            alarmTitle.setText(title);
+            alarmTime.setText(time);
+            alarmDate.setText(date);
+
+//            getActivity().runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    alarmTitle.setText(title);
+//                    alarmTime.setText(time);
+//                    alarmDate.setText(date);
+//                }
+//            });
         }
 
 
