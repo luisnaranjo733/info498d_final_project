@@ -29,7 +29,8 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="info498d.uw.edu.smartalarm" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -82,21 +83,13 @@
 
         <activity android:name=".NewAlarmActivity"
             android:parentActivityName=".MainActivity"
+
             >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="info498d.uw.edu.smartalarm.NewAlarmActivity" />
         </activity>
 
-        <!--<receiver-->
-            <!--android:name=".AlarmReceiver"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true" />-->
-
-        <!--<service-->
-            <!--android:name=".AlarmService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="true"></service>-->
 
 
         <receiver android:name=".ChargeReceiver">

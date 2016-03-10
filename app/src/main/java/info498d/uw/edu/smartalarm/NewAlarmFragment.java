@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.preference.EditTextPreference;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
@@ -17,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -88,6 +91,8 @@ public class NewAlarmFragment extends Fragment {
             }
         });
 
+
+
         setAlarmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,34 +100,40 @@ public class NewAlarmFragment extends Fragment {
             }
         });
 
+
+
         return rootView;
     }
 
 
     public void setAlarm(View v) {
+        EditText nameEdit   = (EditText) getActivity().findViewById(R.id.namePicker);
         Calendar rightNow = Calendar.getInstance();
         GregorianCalendar cal = new GregorianCalendar();
-        cal.set(datePickerFragment.year, datePickerFragment.month,
-                datePickerFragment.day, timePickerFragment.hourOfDay,
-                timePickerFragment.minute);
-        // if date and time have both been set, parse, create, and save new alarm
+        // if date and time have both been set, and date is in the future, parse, create, and save new alarm
         if (datePickerFragment == null) {
             Toast.makeText(getActivity(), "You need to set the date first!", Toast.LENGTH_SHORT).show();
         } else if (timePickerFragment == null) {
             Toast.makeText(getActivity(), "You need to set the time first!", Toast.LENGTH_SHORT).show();
-        } else if (Long.valueOf(rightNow.getTimeInMillis()).compareTo(Long.valueOf(cal.getTimeInMillis())) > 0){
-            Log.v("**service","Alarm not set");
-            Toast toast = Toast.makeText(MainActivity.getMainContext(), "Alarm not set: That time has already past", Toast.LENGTH_LONG);
-            toast.show();
+        } else if (nameEdit.getText().toString().matches("")) {
+            Toast.makeText(getActivity(), "You need to set the name first!", Toast.LENGTH_SHORT).show();
         } else {
-            //String alarmTitle, long timestamp, boolean active
-            Alarm alarm = new Alarm("ALARM", datePickerFragment.year, datePickerFragment.month,
+            cal.set(datePickerFragment.year, datePickerFragment.month,
                     datePickerFragment.day, timePickerFragment.hourOfDay,
-                    timePickerFragment.minute, true);
-            alarm.save();
-            ((OnNewAlarmListener) getActivity()).onNewAlarmSet(alarm);
-            // then figure out how to tell the adapter in AlarmListFragment that the db has changed
-
+                    timePickerFragment.minute);
+            if (Long.valueOf(rightNow.getTimeInMillis()).compareTo(Long.valueOf(cal.getTimeInMillis())) > 0) {
+                Log.v("**service", "Alarm not set");
+                Toast toast = Toast.makeText(MainActivity.getMainContext(), "Alarm not set: That time has already past!", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                //String alarmTitle, long timestamp, boolean active
+                Alarm alarm = new Alarm(nameEdit.getText().toString(), datePickerFragment.year, datePickerFragment.month,
+                        datePickerFragment.day, timePickerFragment.hourOfDay,
+                        timePickerFragment.minute, true);
+                alarm.save();
+                ((OnNewAlarmListener) getActivity()).onNewAlarmSet(alarm);
+                // then figure out how to tell the adapter in AlarmListFragment that the db has changed
+            }
         }
     }
 
