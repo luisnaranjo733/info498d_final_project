@@ -68,6 +68,18 @@ public class SettingsFragment extends PreferenceFragment implements ServiceConne
             }
         });
 
+        Preference smartAlarm = findPreference("pref_key_alarm");
+        smartAlarm.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                SharedPreferences sharedPref = getActivity().getSharedPreferences("USER_SETTINGS", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean("smartAlarm", (Boolean) newValue);
+                editor.commit();
+                return true;
+            }
+        });
+
 
 
         final Preference bedTime = findPreference("pref_key_bed_time");

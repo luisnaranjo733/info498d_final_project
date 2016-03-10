@@ -18,6 +18,11 @@
             android:title="Target Bed Time"
             android:key="pref_key_bed_time"
             android:inputType="time"/>
+        <SwitchPreference
+            android:title="Smart Alarm On/Off"
+            android:key="pref_key_alarm"
+            android:defaultValue="false"
+            />
 
     </PreferenceCategory>
 <!--    <PreferenceCategory

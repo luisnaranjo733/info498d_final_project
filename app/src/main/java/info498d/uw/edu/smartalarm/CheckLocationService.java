@@ -121,7 +121,8 @@ public class CheckLocationService extends Service{
                 Boolean charging = sp.getBoolean("charging", false);
                 Log.v(TAG, location.toString());
                 Log.v(TAG, "current charging: " + charging);
-                if (charging && currentLocationCheck(location.getLatitude(), location.getLongitude())) {
+                Boolean smartAlarm = sharedPreferences.getBoolean("smartAlarm", false);
+                if (charging && currentLocationCheck(location.getLatitude(), location.getLongitude()) && smartAlarm) {
                     Log.v(TAG, "this person is sleeping");
 
                     Calendar c = Calendar.getInstance();
@@ -174,6 +175,8 @@ public class CheckLocationService extends Service{
                     int alarmHour = c.get(Calendar.HOUR_OF_DAY);
                     int alarmMin = c.get(Calendar.MINUTE);
 
+
+
                     Alarm alarm = new Alarm("Smart Alarm", alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, true);
                     alarm.save();
                     Intent saveThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
@@ -207,7 +210,7 @@ public class CheckLocationService extends Service{
             @Override
             public void run() {
                 //Do something after 3 seconds
-                Log.v(TAG, "been after 3 seconds");
+                // Log.v(TAG, "been after 3 seconds");
                 myLocation.getLocation(context, locationResult);
             }
         }, 3000);
