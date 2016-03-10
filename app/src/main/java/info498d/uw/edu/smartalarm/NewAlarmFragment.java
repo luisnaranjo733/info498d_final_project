@@ -39,6 +39,7 @@ public class NewAlarmFragment extends Fragment {
         public void onShowDatePicker(DialogFragment dialogFragment);
         public void onShowTimePicker(DialogFragment dialogFragment);
         public void onDatePicked(DatePickerFragment datePickerFragment);
+        public void onTimePicked(TimePickerFragment timePickerFragment);
         public void onNewAlarmSet(Alarm alarm);
     }
 
@@ -118,9 +119,6 @@ public class NewAlarmFragment extends Fragment {
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
-        private Button datePickerBtn;
-
-
         protected int year;
         protected int month;
         protected int day;
@@ -161,6 +159,11 @@ public class NewAlarmFragment extends Fragment {
         protected int minute;
 
         @Override
+        public String toString() {
+            return "" + hourOfDay + ":" + minute;
+        }
+
+        @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
             final Calendar c = Calendar.getInstance();
@@ -177,6 +180,7 @@ public class NewAlarmFragment extends Fragment {
             Log.v(TAG, "time set: " + hourOfDay + ": " + minute);
             this.hourOfDay = hourOfDay;
             this.minute = minute;
+            ((OnNewAlarmListener) getActivity()).onTimePicked(this);
         }
     }
 

@@ -137,6 +137,10 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         newAlarmFragment.datePickerBtn.setText(datePickerFragment.toString());
     }
 
+    public void onTimePicked(NewAlarmFragment.TimePickerFragment timePickerFragment) {
+        newAlarmFragment.timePickerBtn.setText(timePickerFragment.toString());
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.v(TAG, "Overriding on activity result in main activity");
