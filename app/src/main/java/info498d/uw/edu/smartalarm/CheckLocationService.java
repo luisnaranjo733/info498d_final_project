@@ -162,9 +162,9 @@ public class CheckLocationService extends Service{
 
                     int year = 2016;
                     int month = 3;
-                    int day = 9;
+                    /*int day = 9;
                     int hour = 10;
-                    int minute = 30;
+                    int minute = 30;*/
                     Alarm alarm = new Alarm("Smart Alarm", year, month, day, hour, minute, true);
                     alarm.save();
                     Intent saveThis = new Intent(MainActivity.getMainContext(), AlarmService.class);

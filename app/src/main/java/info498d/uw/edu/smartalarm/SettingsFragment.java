@@ -56,6 +56,12 @@ public class SettingsFragment extends PreferenceFragment implements ServiceConne
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
 
+                SharedPreferences sharedPref = getActivity().getSharedPreferences("USER_SETTINGS", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("targetSleepTime", (String) o);
+
+                editor.commit();
+
                 target = Integer.parseInt(o.toString());
 
                 return true;
