@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.provider.CalendarContract;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -135,6 +136,14 @@ public class CheckLocationService extends Service{
                     saveThis.putExtra("title", alarm.alarmTitle);
                     saveThis.putExtra("timestamp", alarm.timestamp);
                     startService(saveThis);
+
+                    Intent intent = new Intent("my-event");
+                    // add data
+                    intent.putExtra("id", alarm.getId());
+                    LocalBroadcastManager.getInstance(CheckLocationService.this)
+                            .sendBroadcast(intent);
+                    Log.v(TAG, "Just send broadcast to update listview for alarm " + alarm.getId());
+
                 } else {
                     Log.v(TAG, "check again later");
                     // TODO: if current time is equal to target hour of sleep + bedtime stop
