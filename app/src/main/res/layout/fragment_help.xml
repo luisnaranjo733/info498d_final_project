@@ -13,11 +13,22 @@
         android:text="Welcome to Smart Alarm!" />
 
     <TextView
+        android:id="@+id/helpText1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="20dp"
         android:gravity="center"
         android:text="Step 1: In order to use the smart alarm functionality, you must set your preferences using the settings widget in the top right hand corner of the screen! \n \n
         Step 2: Manually set alarms, or wait for the dynamic alarm creation service to set alarms for you based on your sleep!" />
+    
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/helpText1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:text="Step 2: Manually set alarms, or wait for the dynamic alarm creation service to set alarms for you based on your sleep!"
+        />
 
 </RelativeLayout>
