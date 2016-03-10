@@ -160,7 +160,14 @@ public class NewAlarmFragment extends Fragment {
 
         @Override
         public String toString() {
-            return "" + hourOfDay + ":" + minute;
+            String block = "AM";
+            // local copy
+            int hourOfDay = this.hourOfDay;
+            if (hourOfDay > 12) {
+                hourOfDay -= 12;
+                block = "PM";
+            }
+            return "" + hourOfDay + ":" + minute + " " + block;
         }
 
         @Override
