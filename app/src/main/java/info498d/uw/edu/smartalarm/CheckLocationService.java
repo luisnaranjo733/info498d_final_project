@@ -189,7 +189,7 @@ public class CheckLocationService extends Service{
                     LocalBroadcastManager.getInstance(CheckLocationService.this)
                             .sendBroadcast(intent);
                     Log.v(TAG, "Just send broadcast to update listview for alarm " + alarm.getId());
-                    checkAgainLater(context, 5000);
+                    checkAgainLater(context, diff);
                 } else {
                     Log.v(TAG, "check again later");
                     // TODO: if current time is equal to target hour of sleep + bedtime stop

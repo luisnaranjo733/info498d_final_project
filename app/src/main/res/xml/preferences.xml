@@ -7,10 +7,10 @@
             android:key="pref_key_sleep_time"
             android:inputType="number"
             />
-        <EditTextPreference
+        <!--<EditTextPreference
             android:title="Morning Prep Time"
             android:key="pref_key_prep_time"
-            android:inputType="number"/>
+            android:inputType="number"/>-->
         <Preference
             android:title="Sleep Locations"
             android:key="pref_key_sleep_locations" />
@@ -20,7 +20,7 @@
             android:inputType="time"/>
 
     </PreferenceCategory>
-    <PreferenceCategory
+<!--    <PreferenceCategory
         android:title="Customization"
         android:key="pref_key_custom_settings">
         <Preference
@@ -36,5 +36,5 @@
             android:title="Gestures"
             android:key="pref_key_gestures" />
 
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 </PreferenceScreen>
