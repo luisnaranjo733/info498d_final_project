@@ -26,8 +26,7 @@ public class HelpFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_help, container, false);
-        TextView helpText = (TextView) rootView.findViewById(R.id.helpText);
-        helpText.setText(Html.fromHtml("<h2>Title</h2><br><p>Description here</p>"));
+
         return rootView;
     }
 
