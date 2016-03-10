@@ -99,12 +99,13 @@ public class CheckLocationService extends Service {
 
     private void startLocationCheck() {
         Log.v(TAG, "starting location check");
-        SharedPreferences sharedPreferences = getSharedPreferences("USER_SETTINGS", Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = getSharedPreferences("USER_SETTINGS", Context.MODE_PRIVATE);
         Log.v(TAG, "this is the saved bed time: " + sharedPreferences.getString("bedTime", "09:00"));
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
         int day = c.get(Calendar.DAY_OF_MONTH);
+
         Log.v(TAG, "this is the current time: " + hour + ":" + minute);
         // TODO: figure out when to start checking location
 
@@ -115,15 +116,15 @@ public class CheckLocationService extends Service {
             public void gotLocation(Location location) {
                 SharedPreferences sp = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
                 Boolean charging = sp.getBoolean("charging", false);
+
                 Log.v(TAG, "current charging: " + charging);
                 if (charging && currentLocationCheck(location.getLatitude(), location.getLongitude())) {
                     Log.v(TAG, "this person is sleeping");
-                    // myLocation.cancelTimer();
+
                 } else {
                     Log.v(TAG, "check again later");
                     // TODO: if current time is equal to target hour of sleep + bedtime stop
-                    Calendar c = Calendar.getInstance();
-                    int hour = c.get(Calendar.HOUR_OF_DAY);
+
 
                     checkAgainLater(context);
 

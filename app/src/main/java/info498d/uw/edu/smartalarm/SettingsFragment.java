@@ -19,11 +19,16 @@ import android.widget.TextView;
 
 import com.google.common.util.concurrent.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SettingsFragment extends PreferenceFragment implements ServiceConnection{
     private static final String TAG = "SETTING_FRAGMENT";
+
+    private int target = -1;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -46,6 +51,19 @@ public class SettingsFragment extends PreferenceFragment implements ServiceConne
             }
         });
 
+        final Preference targetSleep = findPreference("pref_key_sleep_time");
+        targetSleep.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+
+                target = Integer.parseInt(o.toString());
+
+                return true;
+            }
+        });
+
+
+
         final Preference bedTime = findPreference("pref_key_bed_time");
         bedTime.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -55,9 +73,46 @@ public class SettingsFragment extends PreferenceFragment implements ServiceConne
                 SharedPreferences sharedPref = getActivity().getSharedPreferences("USER_SETTINGS", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
 
+                Log.v(TAG, preference.toString());
+                Calendar c = Calendar.getInstance();
+
                 editor.putString("bedTime", (String) newValue);
-                // TODO: do some math here or to convert to data time object and add time
+                editor.putInt("day", c.DAY_OF_MONTH);
+
+
+                String bedTime = sharedPref.getString("bedTime","");
+
+                if(!bedTime.equals("")) {
+                    String bedTimeArray[] =bedTime.split(":");
+                    String bedTimeHour = bedTimeArray[0];
+                    String bedTimeMin = bedTimeArray[1];
+
+                    if(bedTimeHour.length()==1) {
+                        bedTimeHour = "0"+bedTimeHour;
+                    }
+                    if(bedTimeMin.length()==1) {
+                        bedTimeMin = "0"+bedTimeMin;
+                    }
+
+                    bedTime = bedTimeHour + ":" + bedTimeMin;
+
+                    int wakeTimeHour = (int)((Integer.parseInt(bedTimeHour) + target)%24);
+                    String wakeHour = wakeTimeHour+"";
+
+                    if(wakeHour.length()==1) {
+                        wakeHour = "0"+wakeHour;
+                    }
+
+                    String wakeTime = wakeHour+":"+bedTimeMin;
+
+                    Log.v(TAG,"Bed Time: " + bedTime);
+                    Log.v(TAG,"Wake Time: " + wakeTime);
+                    editor.putString("wakeTime", wakeTime);
+
+                }
+
                 editor.commit();
+                //Log.v(TAG, sharedPref.getString("bedTime", "default"));
                 return true;
             }
         });
