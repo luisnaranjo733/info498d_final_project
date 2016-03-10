@@ -75,6 +75,8 @@ public class CheckLocationService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.v(TAG, "service is started");
+
+
         super.onStartCommand(intent, flags, startId);
 
 
@@ -121,8 +123,43 @@ public class CheckLocationService extends Service{
                 Log.v(TAG, "current charging: " + charging);
                 if (charging && currentLocationCheck(location.getLatitude(), location.getLongitude())) {
                     Log.v(TAG, "this person is sleeping");
-                    checkAgainLater(context, 5000);
+
+                    Calendar c = Calendar.getInstance();
+                    int hour = c.get(Calendar.HOUR_OF_DAY);
+                    int minute = c.get(Calendar.MINUTE);
+                    int day = c.get(Calendar.DAY_OF_MONTH);
+
+                    Log.v(TAG, "TEST current day: " + day);
+
+                    int add = 0;
+
+                    String bedTime = sharedPreferences.getString("bedTime", "");
+
+                    int bedTimeHour = Integer.parseInt(bedTime.split(":")[0]);
+                    int bedTimeMin = Integer.parseInt(bedTime.split(":")[1]);
+
+                    if(hour >= bedTimeHour  && hour < 24)
+                        add = 1;
+
+                    Calendar cal = Calendar.getInstance();
+                    cal.add(Calendar.DAY_OF_MONTH, add);
+                    cal.set(Calendar.HOUR_OF_DAY, bedTimeHour);
+                    cal.set(Calendar.MINUTE,bedTimeMin);
+
+                    Log.v(TAG, "TEST next DAY: " + cal.get(Calendar.DAY_OF_MONTH));
+                    Log.v(TAG, "TEST HOUR: "+ cal.get(Calendar.HOUR_OF_DAY));
+                    Log.v(TAG, "TEST Min: "+ cal.get(Calendar.MINUTE));
+
+
+                    long cms = c.getTimeInMillis();
+                    long tms = cal.getTimeInMillis();
+                    long diff = Math.abs(tms-cms);
+
+                    Log.v(TAG,"DIFF: "+ diff);
+
+                    checkAgainLater(context, diff);
                     // TODO: replace these values with calculated values
+
                     int year = 2016;
                     int month = 3;
                     int day = 9;
@@ -143,7 +180,6 @@ public class CheckLocationService extends Service{
                     LocalBroadcastManager.getInstance(CheckLocationService.this)
                             .sendBroadcast(intent);
                     Log.v(TAG, "Just send broadcast to update listview for alarm " + alarm.getId());
-
                 } else {
                     Log.v(TAG, "check again later");
                     // TODO: if current time is equal to target hour of sleep + bedtime stop
@@ -168,7 +204,7 @@ public class CheckLocationService extends Service{
         // TODO: figure out how long delay should be
     }
 
-    private void checkAgainLater(final Context context, final int delayTime) {
+    private void checkAgainLater(final Context context, final long delayTime) {
         /*Looper.prepare();
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
