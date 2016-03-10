@@ -152,10 +152,11 @@ public class CheckLocationService extends Service{
 
                     long cms = c.getTimeInMillis();
                     long tms = cal.getTimeInMillis();
+                    long diff = Math.abs(tms-cms);
 
-                    Log.v(TAG,"DIFF: "+ Math.abs(tms-cms));
+                    Log.v(TAG,"DIFF: "+ diff);
 
-                    checkAgainLater(context, 5000);
+                    checkAgainLater(context, diff);
                     // TODO: replace these values with calculated values
 //                    int year = 2016;
 //                    int month = 3;
@@ -195,7 +196,7 @@ public class CheckLocationService extends Service{
         // TODO: figure out how long delay should be
     }
 
-    private void checkAgainLater(final Context context, final int delayTime) {
+    private void checkAgainLater(final Context context, final long delayTime) {
         /*Looper.prepare();
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
