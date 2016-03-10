@@ -131,7 +131,11 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         Log.v(TAG, "on new alarm selected");
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         newAlarmFragment = new NewAlarmFragment();
-        fragmentTransaction.replace(R.id.singlePane, newAlarmFragment);
+        if (findViewById(R.id.rightPane) != null) {
+            fragmentTransaction.replace(R.id.rightPane, newAlarmFragment);
+        } else {
+            fragmentTransaction.replace(R.id.singlePane, newAlarmFragment);
+        }
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -173,8 +177,22 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
     public void onNewAlarmSet(Alarm alarm) {
         Log.v(TAG, "Alarm set!");
         alarmListFragment.adapter.add(alarm);
+
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.singlePane,alarmListFragment);
+        if (findViewById(R.id.rightPane) != null) {
+            AlarmDetailsFragment alarmDetailsFragment = new AlarmDetailsFragment();
+            
+            Bundle bundle = new Bundle();
+            bundle.putString("title", alarm.alarmTitle);
+            bundle.putString("day", alarm.getDate());
+            bundle.putString("time", alarm.getTimeRepresentation());
+            bundle.putBoolean("active", alarm.active);
+
+            alarmDetailsFragment.setArguments(bundle);
+            fragmentTransaction.replace(R.id.rightPane, alarmDetailsFragment);
+        } else {
+            fragmentTransaction.replace(R.id.singlePane, alarmListFragment);
+        }
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
