@@ -53,7 +53,7 @@ public class AlarmReceiver extends WakefulBroadcastReceiver {
 
             NotificationCompat.Builder alarmNotificationBuilder = new NotificationCompat.Builder(
                     context).setContentTitle(title).setSmallIcon(android.R.drawable.ic_popup_reminder)
-                    .setContentText(title).setPriority(NotificationCompat.PRIORITY_MAX);
+                    .setContentText("This is an Alarm for" + title).setPriority(NotificationCompat.PRIORITY_MAX);
 
 
             alarmNotificationBuilder.setContentIntent(contentIntent);
