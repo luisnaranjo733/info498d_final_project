@@ -74,6 +74,8 @@ public class CheckLocationService extends Service{
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.v(TAG, "service is started");
+
+
         super.onStartCommand(intent, flags, startId);
 
 
