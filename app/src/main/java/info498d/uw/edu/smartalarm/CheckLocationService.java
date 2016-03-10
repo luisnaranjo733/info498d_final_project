@@ -168,21 +168,27 @@ public class CheckLocationService extends Service{
                     Log.v(TAG, "ALARM hour: "+ c.get(Calendar.HOUR_OF_DAY));
                     Log.v(TAG, "ALARM Min: "+ c.get(Calendar.MINUTE));
 
-//                    Alarm alarm = new Alarm("Smart Alarm", year, month, day, hour, minute, true);
-//                    alarm.save();
-//                    Intent saveThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
-//                    saveThis.setAction(AlarmService.ACTION_CREATE);
-//                    saveThis.putExtra("id", alarm.getId());
-//                    saveThis.putExtra("title", alarm.alarmTitle);
-//                    saveThis.putExtra("timestamp", alarm.timestamp);
-//                    startService(saveThis);
-//
-//                    Intent intent = new Intent("my-event");
-//                    // add data
-//                    intent.putExtra("id", alarm.getId());
-//                    LocalBroadcastManager.getInstance(CheckLocationService.this)
-//                            .sendBroadcast(intent);
-//                    Log.v(TAG, "Just send broadcast to update listview for alarm " + alarm.getId());
+                    int alarmYear = c.get(Calendar.YEAR);
+                    int alarmMonth = c.get(Calendar.MONTH);
+                    int alarmDay = c.get(Calendar.DAY_OF_MONTH);
+                    int alarmHour = c.get(Calendar.HOUR_OF_DAY);
+                    int alarmMin = c.get(Calendar.MINUTE);
+
+                    Alarm alarm = new Alarm("Smart Alarm", alarmYear, alarmMonth, alarmDay, alarmHour, alarmMin, true);
+                    alarm.save();
+                    Intent saveThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
+                    saveThis.setAction(AlarmService.ACTION_CREATE);
+                    saveThis.putExtra("id", alarm.getId());
+                    saveThis.putExtra("title", alarm.alarmTitle);
+                    saveThis.putExtra("timestamp", alarm.timestamp);
+                    startService(saveThis);
+
+                    Intent intent = new Intent("my-event");
+                    // add data
+                    intent.putExtra("id", alarm.getId());
+                    LocalBroadcastManager.getInstance(CheckLocationService.this)
+                            .sendBroadcast(intent);
+                    Log.v(TAG, "Just send broadcast to update listview for alarm " + alarm.getId());
                 } else {
                     Log.v(TAG, "check again later");
                     // TODO: if current time is equal to target hour of sleep + bedtime stop
