@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class CheckLocationService extends Service {
+public class CheckLocationService extends Service{
 
     private static final String TAG = "CHECK_LOCATION_SERVICE";
     private MyLocation.LocationResult locationResult;
@@ -121,6 +121,20 @@ public class CheckLocationService extends Service {
                 if (charging && currentLocationCheck(location.getLatitude(), location.getLongitude())) {
                     Log.v(TAG, "this person is sleeping");
                     checkAgainLater(context, 5000);
+                    // TODO: replace these values with calculated values
+                    int year = 2016;
+                    int month = 3;
+                    int day = 9;
+                    int hour = 10;
+                    int minute = 30;
+                    Alarm alarm = new Alarm("Smart Alarm", year, month, day, hour, minute, true);
+                    alarm.save();
+                    Intent saveThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
+                    saveThis.setAction(AlarmService.ACTION_CREATE);
+                    saveThis.putExtra("id", alarm.getId());
+                    saveThis.putExtra("title", alarm.alarmTitle);
+                    saveThis.putExtra("timestamp", alarm.timestamp);
+                    startService(saveThis);
                 } else {
                     Log.v(TAG, "check again later");
                     // TODO: if current time is equal to target hour of sleep + bedtime stop

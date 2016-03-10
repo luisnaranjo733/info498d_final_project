@@ -175,4 +175,8 @@ public class MainActivity extends AppCompatActivity implements AlarmListFragment
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+    public void createNewAlarm() {
+
+    }
 }
