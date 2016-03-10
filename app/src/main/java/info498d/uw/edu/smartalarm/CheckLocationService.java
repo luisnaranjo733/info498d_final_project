@@ -130,7 +130,7 @@ public class CheckLocationService extends Service{
 
                     Log.v(TAG, "TEST current day: " + day);
 
-                    int add = 1;
+                    int add = 0;
 
                     String bedTime = sharedPreferences.getString("bedTime", "");
 
@@ -143,9 +143,12 @@ public class CheckLocationService extends Service{
                     Calendar cal = Calendar.getInstance();
                     cal.add(Calendar.DAY_OF_MONTH, add);
                     cal.set(Calendar.HOUR_OF_DAY, bedTimeHour);
+                    cal.set(Calendar.MINUTE,bedTimeMin);
 
                     Log.v(TAG, "TEST next DAY: " + cal.get(Calendar.DAY_OF_MONTH));
                     Log.v(TAG, "TEST HOUR: "+ cal.get(Calendar.HOUR_OF_DAY));
+                    Log.v(TAG, "TEST Min: "+ cal.get(Calendar.MINUTE));
+
 
                     long cms = c.getTimeInMillis();
                     long tms = cal.getTimeInMillis();
@@ -167,7 +170,7 @@ public class CheckLocationService extends Service{
 //                    saveThis.putExtra("title", alarm.alarmTitle);
 //                    saveThis.putExtra("timestamp", alarm.timestamp);
 //                    startService(saveThis);
-                    
+
                 } else {
                     Log.v(TAG, "check again later");
                     // TODO: if current time is equal to target hour of sleep + bedtime stop
