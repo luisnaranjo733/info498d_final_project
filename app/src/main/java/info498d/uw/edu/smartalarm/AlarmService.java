@@ -8,6 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
+import android.widget.Toast;
+
+import java.util.Calendar;
+import java.util.Date;
 
 
 /**
@@ -43,7 +47,7 @@ public class AlarmService extends IntentService {
 
         if (matcher.matchAction(action)) {
             if (ACTION_CREATE.equals(action)) {
-                execute(ACTION_CREATE, timeStamp, id);
+                    execute(ACTION_CREATE, timeStamp, id);
             }
 
             if (ACTION_CANCEL.equals(action)) {

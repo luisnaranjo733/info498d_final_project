@@ -21,6 +21,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class NewAlarmFragment extends Fragment {
     private static final String TAG = "**Alarm.NewAlarmFrag";
@@ -99,11 +100,20 @@ public class NewAlarmFragment extends Fragment {
 
 
     public void setAlarm(View v) {
+        Calendar rightNow = Calendar.getInstance();
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.set(datePickerFragment.year, datePickerFragment.month,
+                datePickerFragment.day, timePickerFragment.hourOfDay,
+                timePickerFragment.minute);
         // if date and time have both been set, parse, create, and save new alarm
         if (datePickerFragment == null) {
             Toast.makeText(getActivity(), "You need to set the date first!", Toast.LENGTH_SHORT).show();
         } else if (timePickerFragment == null) {
             Toast.makeText(getActivity(), "You need to set the time first!", Toast.LENGTH_SHORT).show();
+        } else if (Long.valueOf(rightNow.getTimeInMillis()).compareTo(Long.valueOf(cal.getTimeInMillis())) > 0){
+            Log.v("**service","Alarm not set");
+            Toast toast = Toast.makeText(MainActivity.getMainContext(), "Alarm not set: That time has already past", Toast.LENGTH_LONG);
+            toast.show();
         } else {
             //String alarmTitle, long timestamp, boolean active
             Alarm alarm = new Alarm("ALARM", datePickerFragment.year, datePickerFragment.month,
