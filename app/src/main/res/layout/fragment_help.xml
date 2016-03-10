@@ -8,13 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textSize="30dp"
-        android:gravity="center"
-        android:layout_centerInParent="true"
+        android:gravity="center|top"
         android:text="Welcome to Smart Alarm!" />
 
     <TextView
-        android:id="@+id/helpText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:text="Step 1: In order to use the smart alarm functionality, you must set your preferences using the settings widget in the top right hand corner of the screen!" />
 
 </RelativeLayout>

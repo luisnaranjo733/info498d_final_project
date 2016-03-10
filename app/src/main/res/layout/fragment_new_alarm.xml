@@ -60,7 +60,6 @@
                 android:id="@+id/timePicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/NewAlarmButton"
                 android:text="Pick a time" />
 
         </LinearLayout>
