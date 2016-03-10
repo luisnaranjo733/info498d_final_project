@@ -122,21 +122,52 @@ public class CheckLocationService extends Service{
                 Log.v(TAG, "current charging: " + charging);
                 if (charging && currentLocationCheck(location.getLatitude(), location.getLongitude())) {
                     Log.v(TAG, "this person is sleeping");
+
+                    Calendar c = Calendar.getInstance();
+                    int hour = c.get(Calendar.HOUR_OF_DAY);
+                    int minute = c.get(Calendar.MINUTE);
+                    int day = c.get(Calendar.DAY_OF_MONTH);
+
+                    Log.v(TAG, "TEST current day: " + day);
+
+                    int add = 1;
+
+                    String bedTime = sharedPreferences.getString("bedTime", "");
+
+                    int bedTimeHour = Integer.parseInt(bedTime.split(":")[0]);
+                    int bedTimeMin = Integer.parseInt(bedTime.split(":")[1]);
+
+                    if(hour >= bedTimeHour  && hour < 24)
+                        add = 1;
+
+                    Calendar cal = Calendar.getInstance();
+                    cal.add(Calendar.DAY_OF_MONTH, add);
+                    cal.set(Calendar.HOUR_OF_DAY, bedTimeHour);
+
+                    Log.v(TAG, "TEST next DAY: " + cal.get(Calendar.DAY_OF_MONTH));
+                    Log.v(TAG, "TEST HOUR: "+ cal.get(Calendar.HOUR_OF_DAY));
+
+                    long cms = c.getTimeInMillis();
+                    long tms = cal.getTimeInMillis();
+
+                    Log.v(TAG,"DIFF: "+ Math.abs(tms-cms));
+
                     checkAgainLater(context, 5000);
                     // TODO: replace these values with calculated values
-                    int year = 2016;
-                    int month = 3;
-                    int day = 9;
-                    int hour = 10;
-                    int minute = 30;
-                    Alarm alarm = new Alarm("Smart Alarm", year, month, day, hour, minute, true);
-                    alarm.save();
-                    Intent saveThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
-                    saveThis.setAction(AlarmService.ACTION_CREATE);
-                    saveThis.putExtra("id", alarm.getId());
-                    saveThis.putExtra("title", alarm.alarmTitle);
-                    saveThis.putExtra("timestamp", alarm.timestamp);
-                    startService(saveThis);
+//                    int year = 2016;
+//                    int month = 3;
+//                    int day = 9;
+//                    int hour = 10;
+//                    int minute = 30;
+//                    Alarm alarm = new Alarm("Smart Alarm", year, month, day, hour, minute, true);
+//                    alarm.save();
+//                    Intent saveThis = new Intent(MainActivity.getMainContext(), AlarmService.class);
+//                    saveThis.setAction(AlarmService.ACTION_CREATE);
+//                    saveThis.putExtra("id", alarm.getId());
+//                    saveThis.putExtra("title", alarm.alarmTitle);
+//                    saveThis.putExtra("timestamp", alarm.timestamp);
+//                    startService(saveThis);
+                    
                 } else {
                     Log.v(TAG, "check again later");
                     // TODO: if current time is equal to target hour of sleep + bedtime stop
